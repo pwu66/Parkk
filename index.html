@@ -4,79 +4,81 @@
 <head>
   <meta charset="utf-8">
   <title>HTML 5 Layout Structure</title>
-  <link href="project1.0.css?ver=10" rel="stylesheet" type="text/css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link href="project1.0.css?ver=2" rel="stylesheet" type="text/css">
   <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet" type='text/css'>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="script.js?ver=2"></script>
 </head>
 
 <body>
   <header>
-    <script type="text/javascript" src="script.js?ver=10"></script>
-    <nav>
-      <div id="search_bar">
-        <div id="logo_div"><img src="Jacklist.png" id="logo_img" onclick="window.location.reload()"></div>
-        <input id="input" type="text" placeholder="キーワードで検索する" maxlength="100" size="100"></input>
-        <span><input type="submit" id="submit"></input></span>
-      </div>
-    </nav>
+    <div id="header_div">
+      <img src="Jacklist.png" id="j_logo_img" onclick="window.location.reload()">
+      <input id="input" type="text" placeholder="キーワードで検索する" maxlength="100"></input>
+
+      <span><input type="submit" id="submit"></input></span>
+
+    </div>
   </header>
 
-  <div id=total_page_frame>
-    <main>
-      <div id=CategoryFrameSize>
-        <div><img src="/rakuten_logo.png" height="70" width="120"></div>
-        <span id="r_TopSelector" name="r_TopSelector"></span>
-        <span id="r_MidSelector" name="r_MidSelector"></span>
-        <span id="r_BtmSelector" name="r_BtmSelector"></span>
-        <div class="CategorySelectBoxFrame">
-          <select id="CategorySelectBox" name="r_TopCategorySelectBox">
-            <option value="">大カテゴリ</option>
-          </select>
-          <select id="CategorySelectBox" name="r_MidCategorySelectBox">
-            <option value="">中カテゴリ</option>
-          </select>
-          <select id="CategorySelectBox" name="r_BtmCategorySelectBox">
-            <option value="">ソカテゴリ</option>
-          </select>
-        </div>
-        <div id=r_PrintChoiceRequest></div>
-      </div>
-      <div id="r_ItemScreen">
-      </div>
-    </main>
+  <main>
+    <!--카테고리-->
+    <div><img src="/rakuten_logo.png" id="logo_img"></div>
 
-    <main>
-      <div id=CategoryFrameSize>
-        <div><img src="/amazon_logo.png" height="70" width="120"></div>
-        <span id="a_TopSelector" name="a_Topselector"></span>
-        <div class="CategorySelectBoxFrame">
-          <select id="CategorySelectBox" name="a_TopCategorySelectBox">
-            <option value="">大カテゴリ</option>
-          </select>
-        </div>
-      </div>
-      <div id="a_ItemScreen">
-      </div>
-    </main>
+    <span id="r_TopSelector" name="r_TopSelector"></span>
+    <span id="r_MidSelector" name="r_MidSelector"></span>
+    <span id="r_BtmSelector" name="r_BtmSelector"></span>
 
-    <main>
-      <div id=CategoryFrameSize>
-        <div><img src="/yahoo_logo.png" height="70" width="120"></div>
-        <span id="y_TopSelector" name="y_TopSelector"></span>
-        <span id="y_MidSelector" name="y_MidSelector"></span>
-        <div class="CategorySelectBoxFrame">
-          <select id="CategorySelectBox" name="y_TopCategorySelectBox">
-            <option value="">大カテゴリ</option>
-          </select>
-          <select id="CategorySelectBox" name="y_MidCategorySelectBox">
-            <option value="">中カテゴリ</option>
-          </select>
-        </div>
+    <!-- <div class="CategorySelectBoxFrame"> -->
+    <div><select id="CategorySelectBox" name="r_TopCategorySelectBox">
+        <option value="">大カテゴリ</option>
+      </select></div>
+    <div> <select id="CategorySelectBox" name="r_MidCategorySelectBox">
+        <option value="">中カテゴリ</option>
+      </select></div>
+    <div><select id="CategorySelectBox" name="r_BtmCategorySelectBox">
+        <option value="">ソカテゴリ</option>
+      </select></div>
+    <div id=CategoryItemBtnMargine>
+      <select>정렬
+        <option value="">표준</option>
+      </select>
+    </div>
+    <!--상품란-->
+    <div id="r_ItemScreen"></div>
+  </main>
+
+  <main>
+    <div id=CategoryFrameSize>
+      <div><img src="/amazon_logo.png" id="logo_img"></div>
+      <span id="a_TopSelector" name="a_Topselector"></span>
+      <div class="CategorySelectBoxFrame">
+        <select id="CategorySelectBox" name="a_TopCategorySelectBox">
+          <option value="">大カテゴリ</option>
+        </select>
       </div>
-      <div id="y_ItemScreen">
+    </div>
+    <div id=CategoryItemBtnMargine></div>
+    <div id="a_ItemScreen"></div>
+  </main>
+
+  <main>
+    <div id=CategoryFrameSize>
+      <div><img src="/yahoo_logo.png" id="logo_img"></div>
+      <span id="y_TopSelector" name="y_TopSelector"></span>
+      <span id="y_MidSelector" name="y_MidSelector"></span>
+      <div class="CategorySelectBoxFrame">
+        <select id="CategorySelectBox" name="y_TopCategorySelectBox">
+          <option value="">大カテゴリ</option>
+        </select>
+        <select id="CategorySelectBox" name="y_MidCategorySelectBox">
+          <option value="">中カテゴリ</option>
+        </select>
       </div>
-    </main>
-  </div>
+    </div>
+    <div id=CategoryItemBtnMargine></div>
+    <div id="y_ItemScreen"></div>
+  </main>
 </body>
 
 </html>

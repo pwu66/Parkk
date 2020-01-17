@@ -1,26 +1,26 @@
 @charset "utf-8";
 
-body {
-  font-size: 1em;
-  color: #333;
-  font-family: "Times";
+#header_div {
+  text-align: center;
+  position: relative;
+  width:100%;
+  height: 0;
 }
 
-header, main {
-  border: 1px solid black;
+/* header, main {
   margin: 5px;
   padding: 5px;
-}
+} */
 header {
   width: 100%;
-  padding-right: 10px;
   height: 80px;
   background-color: lightgray;
 }
 main {
   float: left;
-  width: 30%;
+  width: 33%;
   text-align: center;
+  position: relative;
 }
 
 input {
@@ -28,16 +28,18 @@ input {
   padding-left: 2em;
 }
 
-#CategorySelectBox {
-  display: block;
-  width: 340px;
-  margin: 2px 0px 10px 0px;
+#CategoryFrame {
+  border: 1px solid black;
+  width: 100%;
 }
-
-.CategorySelectBoxFrame {
-  width: 30%;
+/* .CategorySelectBoxFrame {
   position: relative;
   padding-left: 3em;
+} */
+#CategorySelectBox {
+  display: block;
+  width: 80%;
+  margin: auto;
 }
 
 #selector {
@@ -46,24 +48,17 @@ input {
   display: inline-block;
 }
 
-#total_page_frame {
-  position: absolute;
-  left: 4.5em;
-}
-
-#search_bar {
-  text-align: center;
+#CategoryItemBtnMargine {
+  margin:3% 10%;
+  width:auto;
+  float: right;
   position: relative;
 }
-
-#CategoryFrameSize {
-  width: 400px;
-  height: 200px;
-}
-
-#r_PrintChoiceRequest {
-  width: 400px;
-  height: 200px;
+#j_logo_img {
+  height: 50px;
+  width: 120px;
+  top: 10px;
+  position: relative;
 }
 
 #logo_img {
@@ -78,7 +73,7 @@ input {
   left: 15em;
 }
 
-#logo_img:hover, #submit:hover {
+#j_logo_img:hover, #submit:hover {
   cursor: pointer;
 }
 
@@ -89,4 +84,12 @@ input {
 
 #input {
   height: 30px;
+  width: 35%;
+
+}
+
+body {
+  font-size: 1em;
+  color: #333;
+  font-family: "Times";
 }
