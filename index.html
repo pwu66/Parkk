@@ -40,8 +40,8 @@
         <option value="">ソカテゴリ</option>
       </select></div>
     <div id=CategoryItemBtnMargine>
-      <select>정렬
-        <option value="">표준</option>
+      <select id ="sortCategorySelectBox" name="sortCategorySelectBox">
+        <option value="">標準</option>
       </select>
     </div>
     <!--상품란-->
@@ -51,14 +51,24 @@
   <main>
     <div id=CategoryFrameSize>
       <div><img src="/amazon_logo.png" id="logo_img"></div>
-      <span id="a_TopSelector" name="a_Topselector"></span>
+
+      <span id="a_TopSelector" name="a_TopSelector"></span>
+      <span id="a_MidSelector" name="a_MidSelector"></span>
+
       <div class="CategorySelectBoxFrame">
         <select id="CategorySelectBox" name="a_TopCategorySelectBox">
           <option value="">大カテゴリ</option>
         </select>
+
+        <select id="CategorySelectBox" name="a_MidCategorySelectBox">
+          <option value="">中カテゴリ</option>
+        </select>
       </div>
+
     </div>
+
     <div id=CategoryItemBtnMargine></div>
+
     <div id="a_ItemScreen"></div>
   </main>
 
