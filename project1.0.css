@@ -13,14 +13,19 @@
 } */
 header {
   width: 100%;
-  height: 80px;
+  height: 10%;
   background-color: lightgray;
 }
 main {
   float: left;
-  width: 30%;
+  width: 28%;
   text-align: center;
   position: relative;
+}
+
+#TimeIcon{
+  font-size:40px;
+  margin-top: 15%;
 }
 
 input {
@@ -54,6 +59,7 @@ input {
   float: right;
   position: relative;
 }
+
 #j_logo_img {
   height: 50px;
   width: 120px;
@@ -61,11 +67,10 @@ input {
   position: relative;
 }
 
-#logo_img {
+#logo_img, #r_logo_img {
   height: 50px;
   width: 120px;
 }
-
 #logo_div {
 	display: inline;
   position: absolute;
@@ -73,7 +78,7 @@ input {
   left: 15em;
 }
 
-#j_logo_img:hover, #submit:hover {
+#j_logo_img:hover, #submit:hover ,#r_logo_img:hover{
   cursor: pointer;
 }
 
@@ -81,14 +86,39 @@ input {
   padding-top: 3px;
   text-align: center;
 }
-
 #input {
   height: 30px;
   width: 35%;
-
 }
-
+#Top{
+  cursor:pointer;
+  /* display: block; */
+  background-color: lightgray;
+  text-align: center;
+  vertical-align: middle;
+  height: 4%;
+  width:4%;
+  position: fixed;
+  bottom:10%;
+  right:5px;
+}
+aside{
+  text-align: center;
+  width:10%;
+  float: right;
+  height: 100%;
+}
+div.sticky{
+  border: 1px solid black;
+  position: fixed;
+  margin-top:1%;
+  top: 10%;
+}
+html{
+  height: 100%;
+}
 body {
+  height: 100%;
   font-size: 1em;
   color: #333;
   font-family: "Times";

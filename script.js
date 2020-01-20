@@ -31,6 +31,9 @@ $(function() {
   var a_ImageUrl = []; //아마존
   var a_name = [];
   var a_itemLinkUrl = [];
+  var a_price = [];
+  var a_ReviewAvgValue = [];
+  var a_TotalReviewCount = [];
   var a_TopSelectValue = 0;
   var r_ChildrenId = new Array();
   var a_ChildrenId = new Array();
@@ -43,7 +46,7 @@ $(function() {
   var y_MidCategoryArray = new Array();
   var a_TopCategoryArray = new Array();
   var a_MidCategoryArray = new Array();
-  var sortCategoryArray=new Array();
+  var sortCategoryArray = new Array();
   var sortCategoryObject = new Object();
   var r_TopSelector = $("span[name='r_TopSelector']"); // 라쿠텐, 대카테고리 클릭시 위에 뜨는 기록
   var r_MidSelector = $("span[name='r_MidSelector']"); // 라쿠텐, 중카테고리 클릭시 위에 뜨는 기록
@@ -67,72 +70,72 @@ $(function() {
   $(document).ready(function() {
     //******************** 키워드 검색 및 카테고리 클릭 **************************
     // 기존의 데이터와 카테고리는 초기화시키고, 키워드를 넘겨 새로운 데이터를 가져온다.
-//console.log($("#main").val());
+    //console.log($("#main").val());
     $("#submit").click(function() { //검색란 제출 클릭
       ScreenInit('ary'); //기존 상품단 화면의 데이터 아마존,라쿠텐,야후 모두 초기
       //검색어를 입력하지 않은 경우
-      if($("#input").val()==0){
-      //   var r_div = document.createElement("DIV");
-      //   r_div.setAttribute("style", " text-align:center; display:inline-block; margin-top:2%");
-      //   r_div.innerHTML = "검색어를 입력하세요";
-      //   var y_div = document.createElement("DIV");
-      //   y_div.setAttribute("style", " text-align:center; display:inline-block; margin-top:2%");
-      //   y_div.innerHTML = "검색어를 입력하세요";
+      if ($("#input").val() == 0) {
+        //   var r_div = document.createElement("DIV");
+        //   r_div.setAttribute("style", " text-align:center; display:inline-block; margin-top:2%");
+        //   r_div.innerHTML = "검색어를 입력하세요";
+        //   var y_div = document.createElement("DIV");
+        //   y_div.setAttribute("style", " text-align:center; display:inline-block; margin-top:2%");
+        //   y_div.innerHTML = "검색어를 입력하세요";
         // var a_div = document.createElement("DIV");
         // a_div.setAttribute("style", " text-align:center; display:inline-block; margin-top:2%");
         // a_div.innerHTML = "검색어를 입력하세요";
-      // //  document.getElementById("r_ItemScreen").append(r_div); //
-      // //  document.getElementById("y_ItemScreen").append(y_div); //
+        // //  document.getElementById("r_ItemScreen").append(r_div); //
+        // //  document.getElementById("y_ItemScreen").append(y_div); //
         //document.getElementById("a_ItemScreen").append(a_div); //
-      alert("検索キーワードが空欄です。キーワードを入力して検索してください。");
+        alert("検索キーワードが空欄です。キーワードを入力して検索してください。");
       }
       //검색어를 입력한 경우
-      else{
-      submitButtonClickCheck = true; //submit 클릭 여부 저장
-      scroll_count = 1; // 화면에 뿌리는 횟수 저장. 처음 1로 지정
-      //************************** 카테고리 초기화  *************************
-      //*********** rakuten ***********
-      // //기록자 초기화
-      // r_TopSelector.children().remove(); //라쿠텐, 상단 대카테고리  기록자 삭제
-      // r_MidSelector.children().remove();
-      // r_BtmSelector.children().remove();
-      // //셀렉박스 초기화
-      // r_TopCategorySelectBox.children().remove(); //대카테고리 셀렉트 박스를 초기화 시킨다.
-      // r_MidCategorySelectBox.children().remove();
-      // r_BtmCategorySelectBox.children().remove();
-      // r_TopCategorySelectBox.append("<option value=''>大カテゴリ</option>"); //라쿠텐, 셀렉트 박스 표지 제작
-      // r_MidCategorySelectBox.append("<option value=''>中大カテゴリ</option>");
-      // r_BtmCategorySelectBox.append("<option value=''>ソカテゴリ</option>");
+      else {
+        submitButtonClickCheck = true; //submit 클릭 여부 저장
+        scroll_count = 1; // 화면에 뿌리는 횟수 저장. 처음 1로 지정
+        //************************** 카테고리 초기화  *************************
+        //*********** rakuten ***********
+        // //기록자 초기화
+        // r_TopSelector.children().remove(); //라쿠텐, 상단 대카테고리  기록자 삭제
+        // r_MidSelector.children().remove();
+        // r_BtmSelector.children().remove();
+        // //셀렉박스 초기화
+        // r_TopCategorySelectBox.children().remove(); //대카테고리 셀렉트 박스를 초기화 시킨다.
+        // r_MidCategorySelectBox.children().remove();
+        // r_BtmCategorySelectBox.children().remove();
+        // r_TopCategorySelectBox.append("<option value=''>大カテゴリ</option>"); //라쿠텐, 셀렉트 박스 표지 제작
+        // r_MidCategorySelectBox.append("<option value=''>中大カテゴリ</option>");
+        // r_BtmCategorySelectBox.append("<option value=''>ソカテゴリ</option>");
 
-      //*********** rakuten ***********
-      //카테고리단
-      r_TopSelectorClickInit(); //위에 주석처리 한 부분간략화 하기 위해 해당 코드로 바꿈 //라쿠텐, 중,소 기록자 셀렉박스 초기화
-      r_TopSelector.children().remove(); //대 기록자 초기화
-      r_TopCategorySelectBox.children().remove(); //대 셀렉박스 초기화
-      r_TopCategorySelectBox.append("<option value=''>大カテゴリ</option>");
-      for (i = 0; i < r_TopCategoryArray.length; i++) { //라쿠텐,  대 셀렉박스 데이터 출력
-        r_TopCategorySelectBox.append("<option value='" + r_TopCategoryArray[i].id + "'>" + r_TopCategoryArray[i].cateName + "</option>");
-      }
-      //상품단
-      KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/rakuten_searched', '?keyword=', $("#input").val(), ["0"], 1); //키워드로 데이터 요청
+        //*********** rakuten ***********
+        //카테고리단
+        r_TopSelectorClickInit(); //위에 주석처리 한 부분간략화 하기 위해 해당 코드로 바꿈 //라쿠텐, 중,소 기록자 셀렉박스 초기화
+        r_TopSelector.children().remove(); //대 기록자 초기화
+        r_TopCategorySelectBox.children().remove(); //대 셀렉박스 초기화
+        r_TopCategorySelectBox.append("<option value=''>大カテゴリ</option>");
+        for (i = 0; i < r_TopCategoryArray.length; i++) { //라쿠텐,  대 셀렉박스 데이터 출력
+          r_TopCategorySelectBox.append("<option value='" + r_TopCategoryArray[i].id + "'>" + r_TopCategoryArray[i].cateName + "</option>");
+        }
+        //상품단
+        KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/rakuten_searched', '?keyword=', $("#input").val(), ["0"], 1); //키워드로 데이터 요청
 
-      //*********** amazon ***********
-      //카테고리단
-      a_TopSelectorClickInit(); //아마존, 중,소 기록자 셀렉박스 초기화
-      a_TopCategorySelectBox.children().remove(); // 야후, 대 셀렉박스 초기화
-      a_TopCategorySelectBox.append("<option value=''>大カテゴリ</option>");
-      CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/amazon_cate", '', '', 3); //아마존 대 셀렉박스 데이터 저장 및 출력
-      //상품단
-      KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/amazon_searched', '?keyword=', $("#input").val(), ["0"], 2); //키워드로 데이터 요청
+        //*********** amazon ***********
+        //카테고리단
+        a_TopSelectorClickInit(); //아마존, 중,소 기록자 셀렉박스 초기화
+        a_TopCategorySelectBox.children().remove(); // 야후, 대 셀렉박스 초기화
+        a_TopCategorySelectBox.append("<option value=''>大カテゴリ</option>");
+        CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/amazon_cate", '', '', 3); //아마존 대 셀렉박스 데이터 저장 및 출력
+        //상품단
+        KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/amazon_searched', '?keyword=', $("#input").val(), ["0"], 2); //키워드로 데이터 요청
 
-      //*********** yahoo ***********
-      //카테고리단
-      y_TopSelectorClickInit(); //야후, 중 기록자 셀렉박스 초기화
-      y_TopCategorySelectBox.children().remove(); // 야후, 대 셀렉박스 초기화
-      y_TopCategorySelectBox.append("<option value=''>大カテゴリ</option>");
-      CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/yahoo_cate", '', '', 4); //야후 대 셀렉박스 데이터 저장 및 출력
-      //상품단
-      KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/yahoo_searched', '?keyword=', $("#input").val(),["0"], 3);
+        //*********** yahoo ***********
+        //카테고리단
+        y_TopSelectorClickInit(); //야후, 중 기록자 셀렉박스 초기화
+        y_TopCategorySelectBox.children().remove(); // 야후, 대 셀렉박스 초기화
+        y_TopCategorySelectBox.append("<option value=''>大カテゴリ</option>");
+        CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/yahoo_cate", '', '', 4); //야후 대 셀렉박스 데이터 저장 및 출력
+        //상품단
+        KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/yahoo_searched', '?keyword=', $("#input").val(), ["0"], 3);
       }
     });
     //************************************ 라쿠텐, 대카테고리 기록자 클릭 *********************************
@@ -215,18 +218,18 @@ $(function() {
       }
     });
     // //************************************ 야후, 중카테고리 기록자 클릭 *********************************
-    // $("#y_MidSelector").click(function() {
-    //   //카테고리단
-    //   y_MidSelectorBoxClickInit(); //기록자 초기화
-    //   //상품단
-    //   ScreenInit('y'); //야후 기존 상품단 기존 자료 초기화
-    //   if (submitButtonClickCheck) { //검색한 경우
-    //     var temp = [String(y_MidCategoryArray[y_MidSelectValue - 1].id)];
-    //     KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/yahoo_searched', '?keyword=', $("#input").val(), temp, 3);
-    //   } else { //검색 안한 경우
-    //     DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/yahoo_selected_ranking', "?genreId=", y_MidCategoryArray[y_MidSelectValue - 1].id, 3);
-    //   }
-    // });
+    $("#y_MidSelector").click(function() {
+      //카테고리단
+      y_MidSelectorBoxClickInit(); //기록자 초기화
+      //상품단
+      ScreenInit('y'); //야후 기존 상품단 기존 자료 초기화
+      if (submitButtonClickCheck) { //검색한 경우
+        var temp = [String(y_MidCategoryArray[y_MidSelectValue - 1].id)];
+        KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/yahoo_searched', '?keyword=', $("#input").val(), temp, 3);
+      } else { //검색 안한 경우
+        DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/yahoo_selected_ranking', "?genreId=", y_MidCategoryArray[y_MidSelectValue - 1].id, 3);
+      }
+    });
 
     DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/rakuten_selected_ranking', "?genreId=", 0, 1); //라쿠텐 초기 데이터 호출
     DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/amazon_selected_ranking', "?genreId=", 0, 2); //아마존 초기 데이터 호출
@@ -251,10 +254,12 @@ $(function() {
       r_TopSelectValue = $(this).val(); //대 셀렉박스 선택한 값
       //카테고리단
       r_TopSelectorClickInit(); //라쿠텐, 중,소 기록자 셀렉박스 초기화
-      if(r_TopSelectValue!=0){
-      CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/rakuten_cate", '', '', 1); //라쿠텐 중 셀렉박스 저장 및 출력
-      //상품단
-      PrintChoiceRequest(); // 중카테고리 선택해달라는 문구 출력(라쿠텐의 경우 중카테고리 까지 클릭해야 상품 나옴)
+      if (r_TopSelectValue != 0) {
+        CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/rakuten_cate", '', '', 1); //라쿠텐 중 셀렉박스 저장 및 출력
+        //상품단
+        PrintChoiceRequest(); // 중카테고리 선택해달라는 문구 출력(라쿠텐의 경우 중카테고리 까지 클릭해야 상품 나옴)
+      } else {
+        DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/rakuten_selected_ranking', "?genreId=", 0, 1); //라쿠텐 초기 데이터 호출
       }
     });
   });
@@ -264,16 +269,16 @@ $(function() {
       r_MidSelectValue = $(this).val(); //중 셀렉박스 선택한 값
       //카테고리단
       r_MidSelectorClickInit(); //라쿠텐, 소 기록자 셀렉박스 초기화
-      if(r_MidSelectValue!=0){
-      CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/rakuten_cate", '', '', 2); //라쿠텐 소 셀렉박스 저장 및 출력
-      //상품단
-      ScreenInit('r'); //기존 자료 자료들 지우기
-      if (submitButtonClickCheck) { //중카테고리로 검색할 경우,키워드와 r_ChildrenId(하위카테고리 장르아이디+본인 장르아이디)를 넘겨줘야함
-        KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/rakuten_searched', '?keyword=', $("#input").val(), r_ChildrenId, 1);
-      } else { //검색 안한 경우, 장르 아이디만 넘겨주면
-        DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/rakuten_selected_ranking', "?genreId=", r_MidCategoryArray[r_MidSelectValue - 1].id, 1);
+      if (r_MidSelectValue != 0) {
+        CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/rakuten_cate", '', '', 2); //라쿠텐 소 셀렉박스 저장 및 출력
+        //상품단
+        ScreenInit('r'); //기존 자료 자료들 지우기
+        if (submitButtonClickCheck) { //중카테고리로 검색할 경우,키워드와 r_ChildrenId(하위카테고리 장르아이디+본인 장르아이디)를 넘겨줘야함
+          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/rakuten_searched', '?keyword=', $("#input").val(), r_ChildrenId, 1);
+        } else { //검색 안한 경우, 장르 아이디만 넘겨주면
+          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/rakuten_selected_ranking', "?genreId=", r_MidCategoryArray[r_MidSelectValue - 1].id, 1);
+        }
       }
-    }
     });
   });
   //*********** 라쿠텐 소 셀렉박스 선택 ******************************
@@ -282,85 +287,14 @@ $(function() {
       r_BtmSelectValue = $(this).val(); // 소 셀렉박스 선택한 값
       //카테고리단
       r_BtmSelectorClickInit(); //라쿠텐, 소 기록자 초기화
-      if(r_BtmSelectValue!=0){
-      //상품단
-      ScreenInit('r'); //기존 자료 지우기
-      if (submitButtonClickCheck) { //소카테고리로 검색한 경우, 해당 장르아이디만 넘겨주면 (밑에 하위카테고리가 있는 경우를 제외하고는 해당 장르아이디만 넘겨주면 됌)
-        var temp = [String(r_BtmCategoryArray[r_BtmSelectValue - 1].id)]; //검색으로 ajax하는 경우 배열로 보내줘야 함
-        KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/rakuten_searched', '?keyword=', $("#input").val(), temp, 1);
-      } else {
-        DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/rakuten_selected_ranking', "?genreId=", r_BtmCategoryArray[r_BtmSelectValue - 1].id, 1);
-      }
-    }
-    });
-  });
-  //***********  sorting 셀렉박스 선택 ******************************
-  $(document).on("change", "select[name='sortCategorySelectBox']", function() { //소 셀렉박스 클릭
-    $("option:selected", this).each(function() { //소 셀렉박스의 값을 고른 상황
-      sortSelectValue = $(this).val(); // 소 셀렉박스 선택한 값
-      ScreenInit('ray'); //기존 자료 지우기
-      if(submitButtonClickCheck){
-        var tempId;
-        var y_tempId;
-        var a_tempId;
-        if (r_TopSelectValue==0) { //아무것도 선택 안한 경우
-          tempId=["0"];
-          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/rakuten_searched', '?keyword='+$("#input").val(),'&sortnum='+sortSelectValue,tempId, 1);
-          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/amazon_searched', '?keyword='+$("#input").val(),'&sortnum='+sortSelectValue,tempId, 2);
-          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/yahoo_searched', '?keyword='+$("#input").val(),'&sortnum='+sortSelectValue,tempId, 3);
-        }
-        else if (r_MidSelectValue==0) {//대 셀렉박스만 선택한 경우
-          y_tempId =y_ChildrenId;
-          a_tempId =[String(a_TopCategoryArray[a_TopSelectValue - 1].id)];
-            PrintChoiceRequest();
-            KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/amazon_searched', '?keyword='+$("#input").val(),'&sortnum='+sortSelectValue,a_tempId, 2);
-            KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/yahoo_searched', '?keyword='+$("#input").val(),'&sortnum='+sortSelectValue,y_tempId, 3);
-        }
-        else if (r_BtmSelectValue==0) {//중 셀렉박스까지 선택한 경우
-          tempId=r_ChildrenId;
-          y_tempId = [String(y_MidCategoryArray[y_MidSelectValue - 1].id)];
-          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/rakuten_searched', '?keyword='+$("#input").val(),'&sortnum='+sortSelectValue,tempId, 1);
-          //KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/amazon_searched', '?keyword='+$("#input").val(),'&sortnum='+sortSelectValue,tempId, 2);
-          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/yahoo_searched', '?keyword='+$("#input").val(),'&sortnum='+sortSelectValue,y_tempId, 3);
-        }
-        else{
-          tempId = [String(r_BtmCategoryArray[r_BtmSelectValue - 1].id)]; //검색으로 ajax하는 경우 배열로 보내줘야 함
-          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/rakuten_searched', '?keyword='+$("#input").val(),'&sortnum='+sortSelectValue,tempId, 1);
-        }
-      }
-      else{
-        var tempId;
-        var a_tempId;
-        var y_tempId;
-        //아무것도 선택안한경우, 전체
-        console.log(sortSelectValue);
-        if(r_TopSelectValue==0){
-          tempId = 0; //검색으로 ajax하는 경우 배열로 보내줘야 함
-          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/rakuten_selected_ranking', "?genreId="+ tempId,'&sortnum='+sortSelectValue, 1);
-          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/amazon_selected_ranking', "?genreId="+ tempId,'&sortnum='+sortSelectValue, 2);
-          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/yahoo_selected_ranking', "?genreId="+ tempId,'&sortnum='+sortSelectValue, 3);
-        }
-        //대카테고리만 선택한 경우->아무것도 출력 x, 중카테고리 뛰우기
-        else if (r_MidSelectValue==0) {
-          a_tempId=a_TopCategoryArray[a_TopSelectValue - 1].id;
-          y_tempId=y_ChildrenId;
-          PrintChoiceRequest();
-          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/amazon_selected_ranking', "?genreId="+ a_tempId,'&sortnum='+sortSelectValue, 2);
-          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/yahoo_selected_ranking', "?genreId="+ y_tempId,'&sortnum='+sortSelectValue, 3);
-        }
-        //중카테고리만 선택한 경우 ->gnereId = r_ChildrenId,
-        else if (r_BtmSelectValue==0) {
-          tempId = r_ChildrenId;
-          //a_tempId=a_MidCategoryArray[a_midSelectValue - 1].id;
-          y_tempId=y_MidCategoryArray[y_MidSelectValue - 1].id;
-          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/rakuten_selected_ranking', "?genreId="+ tempId,'&sortnum='+sortSelectValue, 1);
-        //  DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/amazon_selected_ranking', "?genreId="+ a_tempId,'&sortnum='+sortSelectValue, 2);
-          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/yahoo_selected_ranking', "?genreId="+ y_tempId,'&sortnum='+sortSelectValue, 3);
-        }
-        //소카테고리만 선택한 경우->gnereId = r_BtmCategoryArray[r_BtmSelectValue - 1].id
-        else{
-          tempId = r_BtmCategoryArray[r_BtmSelectValue - 1].id;
-          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/rakuten_selected_ranking', "?genreId="+tempId,'&sortnum='+sortSelectValue, 1);
+      if (r_BtmSelectValue != 0) {
+        //상품단
+        ScreenInit('r'); //기존 자료 지우기
+        if (submitButtonClickCheck) { //소카테고리로 검색한 경우, 해당 장르아이디만 넘겨주면 (밑에 하위카테고리가 있는 경우를 제외하고는 해당 장르아이디만 넘겨주면 됌)
+          var temp = [String(r_BtmCategoryArray[r_BtmSelectValue - 1].id)]; //검색으로 ajax하는 경우 배열로 보내줘야 함
+          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/rakuten_searched', '?keyword=', $("#input").val(), temp, 1);
+        } else {
+          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/rakuten_selected_ranking', "?genreId=", r_BtmCategoryArray[r_BtmSelectValue - 1].id, 1);
         }
       }
     });
@@ -371,35 +305,35 @@ $(function() {
       a_TopSelectValue = $(this).val(); // 대 셀렉박스 선택한 값
       //카테고리단
       a_TopSelectorClickInit(); //아마존, 대 기록자 초기화
-      if(a_TopSelectValue!=0){
-      CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/amazon_cate", '', '', 6); //아마존 중 셀렉박스 저장 및 출력
-      //상품단
-      ScreenInit('a'); //아마존 기존 자료 지우기
-      if (submitButtonClickCheck) { //검색한 경우
-        temp = [String(a_TopCategoryArray[a_TopSelectValue - 1].id)];
-        KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/amazon_searched', '?keyword=', $("#input").val(), temp, 2);
-      } else { //검색 안한 경우
-        DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/amazon_selected_ranking', "?genreId=", a_TopCategoryArray[a_TopSelectValue - 1].id, 2);
+      if (a_TopSelectValue != 0) {
+        CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/amazon_cate", '', '', 6); //아마존 중 셀렉박스 저장 및 출력
+        //상품단
+        ScreenInit('a'); //아마존 기존 자료 지우기
+        if (submitButtonClickCheck) { //검색한 경우
+          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/amazon_searched', '?keyword=', $("#input").val(), a_ChildrenId, 2);
+        } else { //검색 안한 경우
+          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/amazon_selected_ranking', "?genreId=", a_TopCategoryArray[a_TopSelectValue - 1].id, 2);
+        }
       }
-    }
     });
   });
-  //*********** 아마존 중 셀렉박스 선택 후 소 셀렉박스 생성  ******************************
+  //*********** 아마존 중 셀렉박스 선택  ******************************
   $(document).on("change", "select[name='a_MidCategorySelectBox']", function() { //중 셀렉박스 클릭
     $("option:selected", this).each(function() { //중 셀렉박스의 값을 고른 상황
       a_MidSelectValue = $(this).val(); // 중 셀렉박스 선택한 값
+      console.log("왜 소식이 없니?");
       //카테고리단
       a_MidSelectorBoxClickInit(); //아마존, 소 기록자 셀렉박스 초기화
       //상품단
-      if(a_MidSelectValue!=0){
-      ScreenInit('a'); //야후 기존 상품단 기존 자료 초기화
-      if (submitButtonClickCheck) { //검색한 경우
-        var temp = [String(a_MidCategoryArray[a_MidSelectValue - 1].id)];
-        KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/amazon_searched', '?keyword=', $("#input").val(), temp, 2);
-      } else { //검색 안한 경우
-        DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/amazon_selected_ranking', "?genreId=", a_MidCategoryArray[a_MidSelectValue - 1].id, 2);
+      if (a_MidSelectValue != 0) {
+        ScreenInit('a'); //야후 기존 상품단 기존 자료 초기화
+        if (submitButtonClickCheck) { //검색한 경우
+          var temp = [String(a_MidCategoryArray[a_MidSelectValue - 1].id)];
+          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/amazon_searched', '?keyword=', $("#input").val(), temp, 2);
+        } else { //검색 안한 경우
+          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/amazon_selected_ranking', "?genreId=", a_MidCategoryArray[a_MidSelectValue - 1].id, 2);
+        }
       }
-    }
     });
   });
   //*********** 야후 대 셀렉박스 선택 후 중 셀렉박스 생성  ******************************
@@ -408,16 +342,16 @@ $(function() {
       y_TopSelectValue = $(this).val(); // 대 셀렉박스 선택한 값
       //카테고리단
       y_TopSelectorClickInit(); //야후, 중 기록자 셀렉박스 초기화
-      if(y_TopSelectValue!=0){
-      CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/yahoo_cate", '', '', 5); //두번째 카테고리 생성
-      //상품단
-      ScreenInit('y'); //야후 기존 상품단 기존 자료 초기화
-      if (submitButtonClickCheck) { //검색한 경우
-        KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/yahoo_searched', '?keyword=', $("#input").val(), y_ChildrenId, 3);
-      } else { //검색 안한 경우
-        DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/yahoo_selected_ranking', "?genreId=", y_TopCategoryArray[y_TopSelectValue - 1].id, 3);
+      if (y_TopSelectValue != 0) {
+        CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/yahoo_cate", '', '', 5); //두번째 카테고리 생성
+        //상품단
+        ScreenInit('y'); //야후 기존 상품단 기존 자료 초기화
+        if (submitButtonClickCheck) { //검색한 경우
+          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/yahoo_searched', '?keyword=', $("#input").val(), y_ChildrenId, 3);
+        } else { //검색 안한 경우
+          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/yahoo_selected_ranking', "?genreId=", y_TopCategoryArray[y_TopSelectValue - 1].id, 3);
+        }
       }
-    }
     });
   });
   //*********** 야후 중 셀렉박스 선택   ******************************
@@ -427,18 +361,87 @@ $(function() {
       //카테고리단
       y_MidSelectorBoxClickInit(); //야후, 소 기록자 셀렉박스 초기화
       //상품단
-      if(y_MidSelectValue!=0){
-      ScreenInit('y'); //야후 기존 상품단 기존 자료 초기화
-      if (submitButtonClickCheck) { //검색한 경우
-        var temp = [String(y_MidCategoryArray[y_MidSelectValue - 1].id)];
-        KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/yahoo_searched', '?keyword=', $("#input").val(), temp, 3);
-      } else { //검색 안한 경우
-        DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/yahoo_selected_ranking', "?genreId=", y_MidCategoryArray[y_MidSelectValue - 1].id, 3);
+      if (y_MidSelectValue != 0) {
+        ScreenInit('y'); //야후 기존 상품단 기존 자료 초기화
+        if (submitButtonClickCheck) { //검색한 경우
+          var temp = [String(y_MidCategoryArray[y_MidSelectValue - 1].id)];
+          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/yahoo_searched', '?keyword=', $("#input").val(), temp, 3);
+        } else { //검색 안한 경우
+          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/yahoo_selected_ranking', "?genreId=", y_MidCategoryArray[y_MidSelectValue - 1].id, 3);
+        }
       }
-    }
     });
   });
-
+  //***********  sorting 셀렉박스 선택 ******************************
+  $(document).on("change", "select[name='sortCategorySelectBox']", function() { //소 셀렉박스 클릭
+    $("option:selected", this).each(function() { //소 셀렉박스의 값을 고른 상황
+      sortSelectValue = $(this).val(); // 소 셀렉박스 선택한 값
+      ScreenInit('ray'); //기존 자료 지우기
+      //********검색어 입력 한 경우**********
+      if (submitButtonClickCheck) {
+        var tempId;
+        var y_tempId;
+        var a_tempId;
+        if (r_TopSelectValue == 0) { //아무것도 선택 안한 경우
+          tempId = ["0"];
+          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/rakuten_searched', '?keyword=' + $("#input").val(), '&sortnum=' + sortSelectValue, tempId, 1);
+          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/amazon_searched', '?keyword=' + $("#input").val(), '&sortnum=' + sortSelectValue, tempId, 2);
+          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/yahoo_searched', '?keyword=' + $("#input").val(), '&sortnum=' + sortSelectValue, tempId, 3);
+        } else if (r_MidSelectValue == 0) { //대 셀렉박스만 선택한 경우
+          a_tempId = a_ChildrenId;
+          y_tempId = y_ChildrenId;
+          PrintChoiceRequest();
+          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/amazon_searched', '?keyword=' + $("#input").val(), '&sortnum=' + sortSelectValue, a_tempId, 2);
+          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/yahoo_searched', '?keyword=' + $("#input").val(), '&sortnum=' + sortSelectValue, y_tempId, 3);
+        } else if (r_BtmSelectValue == 0) { //중 셀렉박스까지 선택한 경우
+          tempId = r_ChildrenId;
+          a_tempId = [String(a_MidCategoryArray[a_TopSelectValue - 1].id)];
+          y_tempId = [String(y_MidCategoryArray[y_MidSelectValue - 1].id)];
+          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/rakuten_searched', '?keyword=' + $("#input").val(), '&sortnum=' + sortSelectValue, tempId, 1);
+          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/amazon_searched', '?keyword='+$("#input").val(),'&sortnum=' + sortSelectValue,  a_tempId, 2);
+          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/yahoo_searched', '?keyword=' + $("#input").val(), '&sortnum=' + sortSelectValue, y_tempId, 3);
+        } else {
+          tempId = [String(r_BtmCategoryArray[r_BtmSelectValue - 1].id)]; //검색으로 ajax하는 경우 배열로 보내줘야 함
+          KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/rakuten_searched', '?keyword=' + $("#input").val(), '&sortnum=' + sortSelectValue, tempId, 1);
+        }
+      }
+  //********검색어 입력하지 않은 경우 **********
+      else {
+        var tempId;
+        var a_tempId;
+        var y_tempId;
+        //아무것도 선택안한경우, 전체
+        if (r_TopSelectValue == 0) {
+          tempId = 0; //검색으로 ajax하는 경우 배열로 보내줘야 함
+          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/rakuten_selected_ranking', "?genreId=" + tempId, '&sortnum=' + sortSelectValue, 1);
+          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/amazon_selected_ranking', "?genreId=" + tempId, '&sortnum=' + sortSelectValue, 2);
+          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/yahoo_selected_ranking', "?genreId=" + tempId, '&sortnum=' + sortSelectValue, 3);
+        }
+        //대카테고리만 선택한 경우->아무것도 출력 x, 중카테고리 뛰우기
+        else if (r_MidSelectValue == 0) {
+          a_tempId = a_ChildrenId;
+          y_tempId = y_ChildrenId;
+          PrintChoiceRequest();
+          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/amazon_selected_ranking', "?genreId=" + a_tempId, '&sortnum=' + sortSelectValue, 2);
+          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/yahoo_selected_ranking', "?genreId=" + y_tempId, '&sortnum=' + sortSelectValue, 3);
+        }
+        //중카테고리만 선택한 경우 ->gnereId = r_ChildrenId,
+        else if (r_BtmSelectValue == 0) {
+          tempId = r_ChildrenId;
+          a_tempId = a_MidCategoryArray[a_MidSelectValue - 1].id;
+          y_tempId = y_MidCategoryArray[y_MidSelectValue - 1].id;
+          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/rakuten_selected_ranking', "?genreId=" + tempId, '&sortnum=' + sortSelectValue, 1);
+          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/amazon_selected_ranking', "?genreId=" + a_tempId, '&sortnum=' + sortSelectValue, 2);
+          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/yahoo_selected_ranking', "?genreId="  + y_tempId, '&sortnum=' + sortSelectValue, 3);
+        }
+        //소카테고리만 선택한 경우->gnereId = r_BtmCategoryArray[r_BtmSelectValue - 1].id
+        else {
+          tempId = r_BtmCategoryArray[r_BtmSelectValue - 1].id;
+          DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/rakuten_selected_ranking', "?genreId=" + tempId, '&sortnum=' + sortSelectValue, 1);
+        }
+      }
+    });
+  });
   //*****************************************************************************여기서 부터 함수단 ***************************************************************
   //현재 화면 및 변수 초기화
   function ScreenInit(what) {
@@ -457,15 +460,16 @@ $(function() {
     if (what.includes('a')) {
       $("#a_ItemScreen").empty();
       a_count = 0;
-      r_sentence_checkInbigcate = false;
       a_ImageUrl = [];
       a_name = [];
+      a_price = [];
+      a_ReviewAvgValue = [];
+      a_TotalReviewCount = [];
       a_itemLinkUrl = [];
     }
     if (what.includes('y')) {
       $("#y_ItemScreen").empty();
       y_count = 0;
-      r_sentence_checkInbigcate = false;
       y_ImageUrl = [];
       y_name = [];
       y_price = [];
@@ -487,6 +491,7 @@ $(function() {
             r_DataStore_printItem(result); //라쿠텐 정보 저장 및 출력
             break;
           case 2:
+          console.log("case2");
             a_DataStore_printItem(result); //아마존 정보 저장 및 출력
             break;
           case 3:
@@ -494,9 +499,6 @@ $(function() {
             break;
         }
       },
-      error: function(xtr, status, error) {
-        alert(xtr + ":" + status + ":" + error);
-      }
     });
   }
   //flask와 연결후 카테고리 출력 해주는 함수
@@ -528,9 +530,7 @@ $(function() {
             break;
         }
       },
-      error: function(xtr, status, error) {
-        alert(xtr + ":" + status + ":" + error);
-      }
+
     });
   }
   //넘겨준 키워드로 상품 출력 해주는 함수 only 검색
@@ -638,6 +638,15 @@ $(function() {
     document.getElementById("r_ItemScreen").appendChild(div); //라쿠텐에 아이템 뿌리기
     r_count++; // 개수 파악
   }
+
+  function HideShow() {
+    var x = document.getElementById("Top");
+    if (x.scrollTop > 0) {
+      x.style.display = "block";
+    } else if (x.scrollTop == 0) {
+      x.style.display = "none";
+    }
+  }
   //5개씩 뿌려주는 기능 구현
   function scroll_Throw() {
     var scrolltop = $(window).scrollTop();
@@ -658,6 +667,9 @@ $(function() {
     for (i in result) {
       a_ImageUrl.push(result[i].mediumImageUrls);
       a_name.push(result[i].itemName);
+      a_price.push("<p style=\"color:red;text-align:center;\">" + result[i].itemPrice + "円</p>");
+      a_ReviewAvgValue.push(result[i].reviewAverage);
+      a_TotalReviewCount.push(result[i].reviewCount);
       a_itemLinkUrl.push(result[i].itemUrl);
     }
     for (i = 0; i < 5 * scroll_count; i++) {
@@ -667,6 +679,7 @@ $(function() {
   }
   //아마존, DB에서 가져온 정보로 아이템 1개의 정보를 DIV에 담아 출력
   function a_MakingiteminfoPrint() {
+    console.log("a_MakingiteminfoPrint start");
     //*****************상품 이미지 *****************
     var img = document.createElement("IMG");
     img.setAttribute("style", "margin-left: auto; margin-right: auto; display: block;");
@@ -677,20 +690,49 @@ $(function() {
     num.setAttribute("style", "font-size:18px; color:red;");
     num.innerHTML = a_count + 1 + "位";
     //*****************상품 링크 *****************
-    var link = document.createElement("a");
-    var linkText = document.createTextNode(a_name[a_count]);
-    link.setAttribute("style", "text-decoration: none; color:#0080FF");
-    link.appendChild(img);
-    link.href = a_itemLinkUrl[a_count];
-    link.appendChild(linkText);
+    var item_link = document.createElement("a");
+    item_link.setAttribute("style", "text-decoration: none; color:#0080FF");
+    item_link.href = a_itemLinkUrl[a_count]; //링크 연결
+    item_link.appendChild(img);
+    var item_linkText = document.createTextNode(a_name[a_count]); //링크 이름
+    item_link.appendChild(item_linkText);
+    //*****************리뷰 링크 *****************
+    var review_link = document.createElement("a"); //리뷰 링크 만들기
+    review_link.setAttribute("style", "text-decoration: none; color:black");
+    review_link.href = a_itemLinkUrl[a_count] + "#itemReview"; //#js-review-widget
+    //*******************평균 리뷰 값으로 별 만들기**************************
+    var yellow = Math.round(a_ReviewAvgValue[a_count] * 2) / 2;
+    var white = 5 - yellow;
+    for (; yellow >= 1; yellow--) {
+      var star = document.createElement("i");
+      star.setAttribute("style", "color:#D7DF01; ");
+      star.className = "fa fa-star text-yellow";
+      review_link.appendChild(star);
+    }
+    if (yellow == 0.5) {
+      var star = document.createElement("i");
+      star.setAttribute("style", "color:#D7DF01;");
+      star.className = "fa fa-star-half-o text-yellow";
+      review_link.appendChild(star);
+    }
+    for (; white >= 1; white--) {
+      var star = document.createElement("i");
+      star.className = "fa fa-star-o ";
+      star.setAttribute("style", "color:#D7DF01;");
+      review_link.appendChild(star);
+    }
+    var review_linkText = document.createTextNode("(" + a_TotalReviewCount[a_count] + ")건");
+    review_link.appendChild(review_linkText);
     //*****************상품 담기 *****************
-    var div = document.createElement("DIV");
+    var div = document.createElement("DIV"); //아이템 정보를 담을 그릇
     div.setAttribute("style", " text-align:center; display:inline-block; width:100%; height:30%;");
-    div.appendChild(num);
-    div.appendChild(link);
+    div.appendChild(num); //순위 담기
+    div.appendChild(item_link); // 아이템 링크 담기
+    div.innerHTML += a_price[a_count]; // 아이템 가격 담기
+    div.appendChild(review_link); //리뷰 링크 담기
     //****************화면에 뿌리기 *****************
-    document.getElementById("a_ItemScreen").appendChild(div);
-    a_count++;
+    document.getElementById("a_ItemScreen").appendChild(div); //라쿠텐에 아이템 뿌리기
+    a_count++; // 개수 파악
   }
   //야후 디비에서 가져온 데이터 저장 및 일부 출력
   function y_DataStore_printItem(result) {
@@ -786,8 +828,8 @@ $(function() {
     r_TopSelector.children().remove();
     r_MidSelector.children().remove();
     r_BtmSelector.children().remove();
-    if(r_TopSelectValue!=0)
-    r_TopSelector.append("<a href='#'>" + r_TopCategoryArray[r_TopSelectValue - 1].cateName + "</a>" + "<span> > </span>"); //main 세부항목 만들기
+    if (r_TopSelectValue != 0)
+      r_TopSelector.append("<a href='javascript:;'>" + r_TopCategoryArray[r_TopSelectValue - 1].cateName + "</a>" + "<span> > </span>"); //main 세부항목 만들기
     //셀렉박스 초기화
     r_MidCategorySelectBox.children().remove(); //두번째 셀렉트 박스를 초기화 시킨다.
     r_BtmCategorySelectBox.children().remove(); //세번째 셀렉트 박스를 초기화 시킨다.
@@ -813,7 +855,7 @@ $(function() {
     for (var i = 0; i < r_MidCategoryArray.length; i++) { //선택된 기록자 등록
       if (r_TopSelectValue == r_MidCategoryArray[i].main_category_id && r_MidSelectValue == r_MidCategoryArray[i].sub_category_id) {
         //main_category_id도 일치해야, 다른 카테고리와 섞이지 않는다.
-        r_MidSelector.append("<a href='#'>" + r_MidCategoryArray[i].cateName + "</a>" + "<span> > </span>");
+        r_MidSelector.append("<a href='javascript:;'>" + r_MidCategoryArray[i].cateName + "</a>" + "<span> > </span>");
         break;
       }
     }
@@ -827,7 +869,7 @@ $(function() {
     r_BtmSelector.children().remove();
     for (var i = 0; i < r_BtmCategoryArray.length; i++) {
       if (r_TopSelectValue == r_BtmCategoryArray[i].main_category_id && r_MidSelectValue == r_BtmCategoryArray[i].sub_category_id && r_BtmSelectValue == r_BtmCategoryArray[i].thr_category_id) {
-        r_BtmSelector.append("<a href='#'>" + r_BtmCategoryArray[i].cateName + "</a>");
+        r_BtmSelector.append("<a href='javascript:;'>" + r_BtmCategoryArray[i].cateName + "</a>");
         break;
       }
     }
@@ -837,9 +879,9 @@ $(function() {
     //기록자 초기화
     a_TopSelector.children().remove();
     a_MidSelector.children().remove();
-    if(a_TopSelectValue!=0){
-    a_TopSelector.append("<a href='#'>" + a_TopCategoryArray[a_TopSelectValue - 1].cateName + "</a>" + "<span> > </span>"); //main 세부항목 만들기
-  }//셀렉박스 초기화
+    if (a_TopSelectValue != 0) {
+      a_TopSelector.append("<a href='javascript:;'>" + a_TopCategoryArray[a_TopSelectValue - 1].cateName + "</a>" + "<span> > </span>"); //main 세부항목 만들기
+    } //셀렉박스 초기화
     a_MidCategorySelectBox.children().remove(); //두번째 셀렉트 박스를 초기화 시킨다.
     a_MidCategorySelectBox.append("<option value=''>中カテゴリ</option>"); //두 세번째 베이스값 만들기
   }
@@ -848,7 +890,7 @@ $(function() {
     a_MidSelector.children().remove();
     for (i = 0; i < a_MidCategoryArray.length; i++) { //두번째 세부항목을 넣어보자.
       if (a_TopSelectValue == a_MidCategoryArray[i].main_category_id && a_MidSelectValue == a_MidCategoryArray[i].sub_category_id) {
-        a_MidSelector.append("<a href='#'>" + a_MidCategoryArray[i].cateName + "</a>");
+        a_MidSelector.append("<a href='javascript:;'>" + a_MidCategoryArray[i].cateName + "</a>");
         break;
       }
     }
@@ -858,26 +900,24 @@ $(function() {
     //기록자 초기화
     y_TopSelector.children().remove();
     y_MidSelector.children().remove();
-    if(y_TopSelectValue!=0)
-    y_TopSelector.append("<a href='#'>" + y_TopCategoryArray[y_TopSelectValue - 1].cateName + "</a>" + "<span> > </span>"); //main 세부항목 만들기
+    if (y_TopSelectValue != 0)
+      y_TopSelector.append("<a href='javascript:;'>" + y_TopCategoryArray[y_TopSelectValue - 1].cateName + "</a>" + "<span> > </span>"); //main 세부항목 만들기
     //셀렉박스 초기화
     y_MidCategorySelectBox.children().remove(); //두번째 셀렉트 박스를 초기화 시킨다.
     y_MidCategorySelectBox.append("<option value=''>中カテゴリ</option>"); //두 세번째 베이스값 만들기
-
   }
   //야후, 중 선택자 클릭시 초기화 시킬 정보 담은 함수
   function y_MidSelectorBoxClickInit() {
     y_MidSelector.children().remove();
     for (var i = 0; i < y_MidCategoryArray.length; i++) { //두번째 세부항목을 넣어보자.
       if (y_TopSelectValue == y_MidCategoryArray[i].main_category_id && y_MidSelectValue == y_MidCategoryArray[i].sub_category_id) {
-        y_MidSelector.append("<a href='#'>" + y_MidCategoryArray[i].cateName + "</a>");
+        y_MidSelector.append("<a href='javascript:;'>" + y_MidCategoryArray[i].cateName + "</a>");
         break;
       }
     }
   }
-
   //sorting 카테고리 하드코딩
-  function SortingCatergoryEnroll(){
+  function SortingCatergoryEnroll() {
     sortCategoryObject = new Object();
     sortCategoryObject.id = "1";
     sortCategoryObject.cateName = "価格が安い順";
@@ -898,7 +938,7 @@ $(function() {
     sortCategoryObject.cateName = "レビュー評価順";
     sortCategoryArray.push(sortCategoryObject);
 
-}
+  }
   //라쿠텐 대 카테고리 하드코딩
   function r_TopCategorySelectBoxWrite() {
     r_TopCategoryObject = new Object();
@@ -1068,9 +1108,6 @@ $(function() {
           //아마존, 두번째 카테고리 데이터 만들기
           element.main_category_id = String(a_TopSelectValue); // 아마존 대카테고리 선택된 값이, 두번째 카테고리의 main id가 됨
           element.sub_category_id = String(j + 1);
-          console.log(element.sub_category_id);
-          console.log(element.main_category_id);
-
           a_MidCategoryArray.push(element);
           a_MidCategorySelectBox.append("<option value='" + element.sub_category_id + "'>" + element.cateName + "</option>");
         }
@@ -1108,4 +1145,90 @@ $(function() {
     });
     y_ChildrenId.push(String(y_TopCategoryArray[y_TopSelectValue - 1].id));
   }
+
+  function rakutenInitRequest() {
+    r_TopSelectorClickInit(); //위에 주석처리 한 부분간략화 하기 위해 해당 코드로 바꿈 //라쿠텐, 중,소 기록자 셀렉박스 초기화
+    r_TopSelector.children().remove(); //대 기록자 초기화
+    r_TopCategorySelectBox.children().remove(); //대 셀렉박스 초기화
+    r_TopCategorySelectBox.append("<option value=''>大カテゴリ</option>");
+    for (i = 0; i < r_TopCategoryArray.length; i++) { //라쿠텐,  대 셀렉박스 데이터 출력
+      r_TopCategorySelectBox.append("<option value='" + r_TopCategoryArray[i].id + "'>" + r_TopCategoryArray[i].cateName + "</option>");
+    }
+    DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/rakuten_selected_ranking', "?genreId=", 0, 1); //라쿠텐 초기 데이터 호출
+  }
+  // $("#createtable").click(function() {
+  //   var db = openDatabase("test", "1.0", "test WebDB", 5 * 1024 * 1024);
+  //   db.transaction(function(execute) {
+  //     var createQuery = "CREATE TABLE IF NOT EXISTS test(id INTEGER PRIMARY KEY, test TEXT )";
+  //     execute.executeSql(createQuery);
+  //     alert("TABLE 생성완료!!");
+  //   });
+  // });
+  //
+  // $("#select").click(function() {
+  //   var db = openDatabase("test", "1.0", "test WebDB", 5 * 1024 * 1024);
+  //   db.transaction(function(execute) {
+  //     var sql = "SELECT * FROM test ORDER BY id DESC";
+  //     execute.executeSql(sql, undefined, function(execute, result) {
+  //         if (result.rows.length > 0) {
+  //           var r = "";
+  //           for (var i = 0; i < result.rows.length; i++) {
+  //             var row = result.rows.item(i);
+  //             r += "<li>";
+  //             r += "<input type='text' value='" + row.test + "' id='" + row.id + "' name='test' />";
+  //             r += "<input type='button' name='update' value='UPDATE'/>";
+  //             r += "<input type='button' name='delete' value='DELETE'/>";
+  //             r += "</li>";
+  //           }
+  //           $("#selectlist > ul").html(r);
+  //         }
+  //       },
+  //       function() {
+  //         alert("조회 에러");
+  //       });
+  //   });
+  // });
+  //
+  // $("#insert").click(function() {
+  //   var db = openDatabase("test", "1.0", "test WebDB", 5 * 1024 * 1024);
+  //   db.transaction(function(execute) {
+  //     var insertQuery = "INSERT INTO test(test) VALUES(?)";
+  //     execute.executeSql(insertQuery, [$("#test").val()],
+  //       function(transaction, resultSet) {
+  //         alert("등록 완료")
+  //       },
+  //       function() {
+  //         alert("등록 에러");
+  //       });
+  //   });
+  // });
+  //
+  // $(document).on("click", "input[name=update]", function() {
+  //   var id = $(this).parent().find("input[type=text]").attr("id");
+  //   var value = $(this).parent().find("input[type=text]").val();
+  //   var db = openDatabase("test", "1.0", "test WebDB", 5 * 1024 * 1024);
+  //   db.transaction(function(execute) {
+  //     var insertQuery = "UPDATE test SET test = ? WHERE id = ?";
+  //     execute.executeSql(insertQuery, [value, id], function(transaction, resultSet) {
+  //       alert("수정 완료");
+  //     }, function() {
+  //       alert("수정 에러");
+  //     });
+  //   });
+  // });
+  //
+  // $(document).on("click", "input[name=delete]", function() {
+  //   var id = $(this).parent().find("input[type=text]").attr("id");
+  //   var db = openDatabase("test", "1.0", "test WebDB", 5 * 1024 * 1024);
+  //   db.transaction(function(execute) {
+  //     var deleteQuery = "DELETE FROM test WHERE id = ?";
+  //     execute.executeSql(deleteQuery, [id], function(transaction, resultSet) {
+  //         alert("삭제 완료");
+  //       },
+  //       function() {
+  //         alert("삭제 에러");
+  //       });
+  //   });
+  // });
+
 });

@@ -3,13 +3,14 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HTML 5 Layout Structure</title>
-  <link href="project1.0.css?ver=2" rel="stylesheet" type="text/css">
+  <link href="project1.0.css?ver=3" rel="stylesheet" type="text/css">
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet" type='text/css'>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="script.js?ver=2"></script>
+  <script type="text/javascript" src="script.js?ver=3"></script>
 </head>
-
 <body>
   <header>
     <div id="header_div">
@@ -23,7 +24,7 @@
 
   <main>
     <!--카테고리-->
-    <div><img src="/rakuten_logo.png" id="logo_img"></div>
+    <div><img src="/rakuten_logo.png" id="r_logo_img" onclick='rakutenInitRequest()'></div>
 
     <span id="r_TopSelector" name="r_TopSelector"></span>
     <span id="r_MidSelector" name="r_MidSelector"></span>
@@ -47,14 +48,13 @@
     <!--상품란-->
     <div id="r_ItemScreen"></div>
   </main>
-
+  
   <main>
     <div id=CategoryFrameSize>
       <div><img src="/amazon_logo.png" id="logo_img"></div>
 
       <span id="a_TopSelector" name="a_TopSelector"></span>
       <span id="a_MidSelector" name="a_MidSelector"></span>
-
       <div class="CategorySelectBoxFrame">
         <select id="CategorySelectBox" name="a_TopCategorySelectBox">
           <option value="">大カテゴリ</option>
@@ -64,11 +64,8 @@
           <option value="">中カテゴリ</option>
         </select>
       </div>
-
     </div>
-
     <div id=CategoryItemBtnMargine></div>
-
     <div id="a_ItemScreen"></div>
   </main>
 
@@ -89,6 +86,24 @@
     <div id=CategoryItemBtnMargine></div>
     <div id="y_ItemScreen"></div>
   </main>
-</body>
 
+<aside>
+  <div class="sticky">
+    <i class="far fa-clock" id="TimeIcon"></i>
+    <div>최근 본 상품</div>
+  </div>
+  <div id ="Top" onclick="window.scroll(0,0)">TOP</div>
+</aside>
+
+</body>
+<!-- <script>
+function rakutenInitRequest(){
+  if(window.openDatabase) {
+       alert("현재 브라우저는 Web SQL Database를 지원합니다")
+  }
+  else{
+        alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다")
+  }
+}
+</script> -->
 </html>
