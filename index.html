@@ -5,11 +5,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HTML 5 Layout Structure</title>
-  <link href="project1.0.css?ver=3" rel="stylesheet" type="text/css">
+  <link href="project1.0.css?ver=23" rel="stylesheet" type="text/css">
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet" type='text/css'>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="script.js?ver=3"></script>
 </head>
 <body>
   <header>
@@ -34,7 +33,7 @@
     <div><select id="CategorySelectBox" name="r_TopCategorySelectBox">
         <option value="">大カテゴリ</option>
       </select></div>
-    <div> <select id="CategorySelectBox" name="r_MidCategorySelectBox">
+    <div> <select id="r_CategorySelectBox" name="r_MidCategorySelectBox">
         <option value="">中カテゴリ</option>
       </select></div>
     <div><select id="CategorySelectBox" name="r_BtmCategorySelectBox">
@@ -48,7 +47,7 @@
     <!--상품란-->
     <div id="r_ItemScreen"></div>
   </main>
-  
+
   <main>
     <div id=CategoryFrameSize>
       <div><img src="/amazon_logo.png" id="logo_img"></div>
@@ -56,7 +55,7 @@
       <span id="a_TopSelector" name="a_TopSelector"></span>
       <span id="a_MidSelector" name="a_MidSelector"></span>
       <div class="CategorySelectBoxFrame">
-        <select id="CategorySelectBox" name="a_TopCategorySelectBox">
+        <select id="a_CategorySelectBox" name="a_TopCategorySelectBox">
           <option value="">大カテゴリ</option>
         </select>
 
@@ -65,7 +64,7 @@
         </select>
       </div>
     </div>
-    <div id=CategoryItemBtnMargine></div>
+    <div id=a_CategoryItemBtnMargine></div>
     <div id="a_ItemScreen"></div>
   </main>
 
@@ -83,7 +82,7 @@
         </select>
       </div>
     </div>
-    <div id=CategoryItemBtnMargine></div>
+    <div id=y_CategoryItemBtnMargine></div>
     <div id="y_ItemScreen"></div>
   </main>
 
@@ -94,6 +93,7 @@
   </div>
   <div id ="Top" onclick="window.scroll(0,0)">TOP</div>
 </aside>
+<script type="text/javascript" src="script.js?ver=23"></script>
 
 </body>
 <!-- <script>
