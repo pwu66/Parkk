@@ -22,12 +22,31 @@ main {
   text-align: center;
   position: relative;
 }
-
+#PrevButton{
+  text-decoration: none;
+  display: inline-block;
+  margin-right:10px;
+}
+#PrevButton:hover,#NextButton:hover{
+  background-color: lightgray;
+  color:black
+}
+#NextButton{
+  text-decoration: none;
+  display: inline-block;
+  margin-left:10px;
+}
+#testDB{
+  overflow: scroll;
+  height:500px;
+}
 #TimeIcon{
   font-size:40px;
   margin-top: 15%;
 }
-
+#InitButtonMargine{
+  margin-bottom: 10px;
+}
 input {
   margin-top: 2em;
   padding-left: 2em;
@@ -111,20 +130,24 @@ input {
   height: 4%;
   width:4%;
   position: fixed;
-  bottom:10%;
+  bottom:5%;
   right:5px;
 }
 aside{
+  position:fixed;
+  top:5%;
+  right:5px;
   text-align: center;
   width:10%;
   float: right;
   height: 100%;
 }
 div.sticky{
-  border: 1px solid black;
+  /* border: 1px solid black; */
   position: fixed;
   margin-top:1%;
   top: 10%;
+
 }
 html{
   height: 100%;

@@ -305,7 +305,8 @@
   DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/yahoo_selected_ranking', "?genreId=", 0, 3); //야후 초기 데이터 호출
   CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/amazon_cate", '', '', 3); //아마존 초기 대카테고리 호출
   CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/yahoo_cate", '', '', 4); //야후 초기 대카테고리 호출
-  //deleteData();
+//  deleteData();
+  // document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   createDB();
   createTable();
   selectData();
@@ -847,8 +848,7 @@
 
   //storage for user to click item
   function ToWebDB(item) {
-    console.log($(item).data('imageurl'));
-    console.log($(item).data('link'));
+
   //  deleteData();
     createDB();
     createTable();
@@ -856,9 +856,10 @@
     selectData();
 
     function insertData() {
-      var date = new Date();
+      // var date = new Date();
+      // date.setTime(date.getTime() + (1*60*1000));
       db.transaction(function(execute) {
-        execute.executeSql("insert into Test values(?,?,?)", [$(item).data('imageurl'), $(item).data('link'), date]);
+        execute.executeSql("insert into Test values(?,?)", [$(item).data('imageurl'), $(item).data('link')]);
       });
     }
   }
@@ -867,13 +868,14 @@
     db.transaction(function(execute) {
       execute.executeSql('DROP TABLE Test');
     });
+    $('#testDB').empty();
   }
   function createDB() {
     db = openDatabase("mydb", "1.0", "test DB ", 3 * 1024 * 1024);
   }
   function createTable() {
     db.transaction(function(execute) {
-      execute.executeSql("create table IF NOT EXISTS Test(img PRIMARY KEY,link,time)");
+      execute.executeSql("create table IF NOT EXISTS Test(img PRIMARY KEY,link)");
     });
   }
 //   var db_count =1;
@@ -929,7 +931,7 @@
               item_link.appendChild(img);
               item_link.href = row['link'];
               var div = document.createElement("DIV"); //아이템 정보를 담을 그릇
-              div.setAttribute("style", " text-align:center; display:inline-block; width:100%; height:50px;");
+              div.setAttribute("style", " text-align:center; border: 1px solid black; margin:1% auto; display:inline-block; width:80px; height:50px;");
               div.appendChild(item_link);
               document.getElementById('testDB').prepend(div); //라쿠텐에 아이템 뿌리기
         }
