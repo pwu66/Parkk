@@ -65,37 +65,20 @@
   var sortCategorySelectBox = $("select[name='sortCategorySelectBox']");
 
   r_TopCategorySelectBoxWrite(); //라쿠텐 대카테고리 하드코딩 값 입력
-  SortingCatergoryEnroll(); //sotring 카테고리 하드코딩
+  SortingCatergoryEnroll(); //카테고리 정렬 값 하드코딩
 
-  //******************** 키워드 검색 및 카테고리 클릭 **************************
-  // 기존의 데이터와 카테고리는 초기화시키고, 키워드를 넘겨 새로운 데이터를 가져온다.
-  $("#submit").click(function() { //검색란 제출 클릭
-    ScreenInit('ary'); //기존 상품단 화면의 데이터 아마존,라쿠텐,야후 모두 초기
-    //검색어를 입력하지 않은 경우
-    if ($("#input").val() == 0) {
+  //검색창 제출란 클릭한 경우
+  $("#submit").click(function() {
+    ScreenInit('ary'); //기존 화면의 데이터 아마존,라쿠텐,야후 모두 초기화
+    if ($("#input").val() == 0) {//내용 공란
       alert("検索キーワードが空欄です。キーワードを入力して検索してください。");
     }
-    //검색어를 입력한 경우
-    else {
+    else {//내용 존재
       submitButtonClickCheck = true; //submit 클릭 여부 저장
       scroll_count = 1; // 화면에 뿌리는 횟수 저장. 처음 1로 지정
-      //************************** 카테고리 초기화  *************************
-      //*********** rakuten ***********
-      // //기록자 초기화
-      // r_TopSelector.children().remove(); //라쿠텐, 상단 대카테고리  기록자 삭제
-      // r_MidSelector.children().remove();
-      // r_BtmSelector.children().remove();
-      // //셀렉박스 초기화
-      // r_TopCategorySelectBox.children().remove(); //대카테고리 셀렉트 박스를 초기화 시킨다.
-      // r_MidCategorySelectBox.children().remove();
-      // r_BtmCategorySelectBox.children().remove();
-      // r_TopCategorySelectBox.append("<option value=''>大カテゴリ</option>"); //라쿠텐, 셀렉트 박스 표지 제작
-      // r_MidCategorySelectBox.append("<option value=''>中大カテゴリ</option>");
-      // r_BtmCategorySelectBox.append("<option value=''>ソカテゴリ</option>");
-
       //*********** rakuten ***********
       //카테고리단
-      r_TopSelectorClickInit(); //위에 주석처리 한 부분간략화 하기 위해 해당 코드로 바꿈 //라쿠텐, 중,소 기록자 셀렉박스 초기화
+      r_TopSelectorClickInit(); //라쿠텐, 중,소 기록자 셀렉박스 초기화 (비슷한 역할의 함수가 있어서 썼음)
       r_TopSelector.children().remove(); //대 기록자 초기화
       r_TopCategorySelectBox.children().remove(); //대 셀렉박스 초기화
       r_TopCategorySelectBox.append("<option value=''>大カテゴリ</option>");
@@ -103,23 +86,27 @@
         r_TopCategorySelectBox.append("<option value='" + r_TopCategoryArray[i].id + "'>" + r_TopCategoryArray[i].cateName + "</option>");
       }
       //상품단
-      SortKeywordSending(1);
+      tempId = ["0"];
+      KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/rakuten_searched', '?keyword=' + $("#input").val(), '&sortnum=' + sortSelectValue, tempId, 1);
       //*********** amazon ***********
       //카테고리단
       a_TopSelectorClickInit(); //아마존, 중,소 기록자 셀렉박스 초기화
+      a_TopSelector.children().remove(); //대 기록자 초기화
       a_TopCategorySelectBox.children().remove(); // 야후, 대 셀렉박스 초기화
       a_TopCategorySelectBox.append("<option value=''>大カテゴリ</option>");
       CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/amazon_cate", '', '', 3); //아마존 대 셀렉박스 데이터 저장 및 출력
       //상품단
-      SortKeywordSending(2);
+      console.log(sortSelectValue);
+      KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/amazon_searched', '?keyword=' + $("#input").val(), '&sortnum=' + sortSelectValue, tempId, 2);
       //*********** yahoo ***********
       //카테고리단
       y_TopSelectorClickInit(); //야후, 중 기록자 셀렉박스 초기화
+      y_TopSelector.children().remove(); //대 기록자 초기화
       y_TopCategorySelectBox.children().remove(); // 야후, 대 셀렉박스 초기화
       y_TopCategorySelectBox.append("<option value=''>大カテゴリ</option>");
       CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/yahoo_cate", '', '', 4); //야후 대 셀렉박스 데이터 저장 및 출력
       //상품단
-      SortKeywordSending(3);
+      KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/yahoo_searched', '?keyword=' + $("#input").val(), '&sortnum=' + sortSelectValue, tempId, 3);
     }
   });
 
@@ -305,12 +292,7 @@
   DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/yahoo_selected_ranking', "?genreId=", 0, 3); //야후 초기 데이터 호출
   CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/amazon_cate", '', '', 3); //아마존 초기 대카테고리 호출
   CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/yahoo_cate", '', '', 4); //야후 초기 대카테고리 호출
-//  deleteData();
-  // document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  createDB();
-  createTable();
-  selectData();
-  //}
+  printAllRecentSearchingItem();
   //*************************** 카테고리 선택하는 경우 ***************************************
   //*********** 라쿠텐 대 셀렉박스 선택 후 중 셀렉박스 생성  ******************************
   $(document).on("change", "select[name='r_TopCategorySelectBox']", function() { //대 셀렉박스 클릭
@@ -634,7 +616,7 @@
   function SortKeywordSending(number) {
     switch (number) {
       case 1: //*******라쿠텐************
-        if (r_TopSelectValue == 0) { //아무것도 선택 안한 경우
+       if (r_TopSelectValue == 0) { //아무것도 선택 안한 경우
           tempId = ["0"];
           KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/rakuten_searched', '?keyword=' + $("#input").val(), '&sortnum=' + sortSelectValue, tempId, 1);
         } else if (r_MidSelectValue == 0) { //대 셀렉박스만 선택한 경우
@@ -649,7 +631,7 @@
         }
         break;
       case 2: //*******아마존************
-        if (a_TopSelectValue == 0) { //아무것도 선택 안한 경우
+       if (a_TopSelectValue == 0) { //아무것도 선택 안한 경우
           tempId = ["0"];
           KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/amazon_searched', '?keyword=' + $("#input").val(), '&sortnum=' + sortSelectValue, tempId, 2);
         } else if (a_MidSelectValue == 0) { //대 셀렉박스만 선택한 경우
@@ -659,7 +641,7 @@
           a_tempId = [String(a_MidCategoryArray[a_TopSelectValue - 1].id)];
           KeywordSendingAjax('http://ubuntu@54.199.177.237:5000/amazon_searched', '?keyword=' + $("#input").val(), '&sortnum=' + sortSelectValue, a_tempId, 2);
         }
-        break;
+         break;
       case 3: //*******야후************
         if (y_TopSelectValue == 0) { //아무것도 선택 안한 경우
           tempId = ["0"];
@@ -724,8 +706,7 @@
             a_MidCategoryStorage(result); //아마존 중카테고리 저장
             break;
         }
-      },
-
+      }
     });
   }
   //넘겨준 키워드로 상품 출력 해주는 함수 only 검색
@@ -742,7 +723,8 @@
       contentType: 'application/json',
       dataType: 'json',
       success: function(data) {
-        if (data.length != 0) {
+        console.log(data);
+        if (data.length !== 0) {
           switch (number) {
             case 1:
               r_DataStore_printItem(data); //라쿠텐 정보 저장 및 출력
@@ -776,7 +758,6 @@
       scroll_Throw(); //스크롤에 따라 5개씩 출력
     };
   }
-  var c_n;
   //라쿠텐, DB에서 가져온 정보로 아이템 1개의 정보를 DIV에 담아 출력
   function r_MakingiteminfoPrint() {
     //*****************상품 이미지 *****************
@@ -794,10 +775,10 @@
     item_link.setAttribute("style", "text-decoration: none; color:#0080FF");
     item_link.setAttribute("target", "_blank");
     item_link.setAttribute("data-imageurl", r_ImageUrl[r_count]);
-    item_link.setAttribute("data-name", r_name[r_count]);
+    item_link.setAttribute("data-key",'r'+r_count);
     item_link.setAttribute("data-link", r_itemLinkUrl[r_count]);
     item_link.setAttribute("onclick", "ToWebDB(this);");
-    //item_link.href = r_itemLinkUrl[r_count]; //링크 연결
+    item_link.href = r_itemLinkUrl[r_count]; //링크 연결
     item_link.appendChild(img);
     var item_linkText = document.createTextNode(r_name[r_count]); //링크 이름
     item_link.appendChild(item_linkText);
@@ -844,110 +825,67 @@
     document.getElementById("r_ItemScreen").appendChild(div); //라쿠텐에 아이템 뿌리기
     r_count++; // 개수 파악
   }
-  var db;
 
   //storage for user to click item
   function ToWebDB(item) {
-
-  //  deleteData();
-    createDB();
-    createTable();
-    insertData();
-    selectData();
-
-    function insertData() {
-      // var date = new Date();
-      // date.setTime(date.getTime() + (1*60*1000));
-      db.transaction(function(execute) {
-        execute.executeSql("insert into Test values(?,?)", [$(item).data('imageurl'), $(item).data('link')]);
-      });
+    var localObject = new Object();
+    localObject.link =$(item).data('link');
+    localObject.imageurl =$(item).data('imageurl');
+    var key = $(item).data('key');
+    if(localStorage.getItem(key) === null){
+    localStorage.setItem(key, JSON.stringify(localObject));
+    printRecentSearchingItem(key);
     }
   }
-  function deleteData() {
-    db = openDatabase("mydb", "1.0", "test DB ", 3 * 1024 * 1024);
-    db.transaction(function(execute) {
-      execute.executeSql('DROP TABLE Test');
-    });
-    $('#testDB').empty();
-  }
-  function createDB() {
-    db = openDatabase("mydb", "1.0", "test DB ", 3 * 1024 * 1024);
-  }
-  function createTable() {
-    db.transaction(function(execute) {
-      execute.executeSql("create table IF NOT EXISTS Test(img PRIMARY KEY,link)");
-    });
-  }
-//   var db_count =1;
-// function testfunction(result){
-//   db.transaction(function(execute) {
-//     var num =result.rows.length;
-//     console.log(num);
-//     // if(num>10){
-//     //   execute.executeSql("delete FROM Test where rowid = "+db_count);
-//     //   console.log("nothing?");
-//     //   db_count++;
-//     // }
-// });
-//
-//   db.transaction(function(execute) {
-//     execute.executeSql("select * from Test", [],
-//       function(exectue, result) {
-//     for (i = 0; i < result.rows.length; i++) {
-//       var row = result.rows.item(i);
-//       var img = document.createElement("IMG");
-//       img.setAttribute("style", "margin-left: auto; margin-right: auto; display: block;");
-//       img.setAttribute("src", row['img']);
-//       img.setAttribute("height", "50px ");
-//       var item_link = document.createElement("a");
-//       item_link.setAttribute("style", "text-decoration: none; color:#0080FF");
-//       item_link.setAttribute("target", "_blank");
-//       item_link.appendChild(img);
-//       item_link.href = row['link'];
-//       var div = document.createElement("DIV"); //아이템 정보를 담을 그릇
-//       div.setAttribute("style", " text-align:center; display:inline-block; width:100%; height:50px;");
-//       div.appendChild(item_link);
-//       document.getElementById('testDB').prepend(div); //라쿠텐에 아이템 뿌리기
-//     }
-// })
-// });
-// }
 
-  function selectData() {
-    $('#testDB').empty();
-    db.transaction(function(execute) {
-      execute.executeSql("select * from Test", [],
-        function(exectue, result) {
-            //testfunction(result);
-            for (i = 0; i < result.rows.length; i++) {
-              var row = result.rows.item(i);
-              var img = document.createElement("IMG");
-              img.setAttribute("style", "margin-left: auto; margin-right: auto; display: block;");
-              img.setAttribute("src", row['img']);
-              img.setAttribute("height", "50px ");
-              var item_link = document.createElement("a");
-              item_link.setAttribute("style", "text-decoration: none; color:#0080FF");
-              item_link.setAttribute("target", "_blank");
-              item_link.appendChild(img);
-              item_link.href = row['link'];
-              var div = document.createElement("DIV"); //아이템 정보를 담을 그릇
-              div.setAttribute("style", " text-align:center; border: 1px solid black; margin:1% auto; display:inline-block; width:80px; height:50px;");
-              div.appendChild(item_link);
-              document.getElementById('testDB').prepend(div); //라쿠텐에 아이템 뿌리기
-        }
-      }
-      );
+  function printRecentSearchingItem(key) {
+    var image = JSON.parse(localStorage.getItem(key)).imageurl;
+    var link = JSON.parse(localStorage.getItem(key)).link;
+
+    var img = document.createElement("IMG");
+    img.setAttribute("style", "margin-left: auto; margin-right: auto; display: block;");
+    img.setAttribute("src", image);
+    img.setAttribute("height", "50px ");
+
+    var item_link = document.createElement("a");
+    item_link.setAttribute("style", "text-decoration: none; color:#0080FF");
+    item_link.setAttribute("target", "_blank");
+    item_link.appendChild(img);
+    item_link.href = link;
+     //이미지 담는 Div
+    var imageDiv = document.createElement("div");
+    imageDiv.setAttribute("style", " text-align:center; height:50px; position:absolute;");
+    //imageDiv.setAttribute("onmouseover", "");
+    imageDiv.appendChild(item_link);
+
+    var deleteButton = document.createElement("input");
+    deleteButton.setAttribute("style","display:inline; position:absolute; left:70%; bottom:60%;");
+    deleteButton.setAttribute("type","button");
+    deleteButton.setAttribute("value","X");
+    deleteButton.addEventListener("click",function(){
+      localStorage.removeItem(key);
+      $(this).closest("div").remove();
     });
 
+    //가장 바깥쪽 DIV
+    var outerDiv = document.createElement("DIV"); //아이템 정보를 담을 그릇
+    outerDiv.setAttribute("style", " text-align:center; border: 1px solid black; margin:1% auto; display:block; width:auto; height:50px; position:relative;");
+    outerDiv.appendChild(imageDiv);
+    outerDiv.appendChild(deleteButton);
+    document.getElementById('testDB').prepend(outerDiv); //라쿠텐에 아이템 뿌리기
   }
 
+function printAllRecentSearchingItem() {
+for ( var i = 0; i < localStorage.length; ++i ) {
+    var key =localStorage.key(i);
+    printRecentSearchingItem(key);
+  }
+}
 
-
-  // db.transaction(function(execute) {
-  //   var createQuery = "CREATE TABLE IF NOT EXISTS test(id INTEGER PRIMARY KEY, test TEXT )";
-  //   execute.executeSql(createQuery);
-  //   alert("TABLE 생성완료!!");
-  // });
+function initRecentItem(){
+  localStorage.clear();
+  $(testDB).empty();
+}
 
   //5개씩 뿌려주는 기능 구현
   function scroll_Throw() {
@@ -994,6 +932,10 @@
     var item_link = document.createElement("a");
     item_link.setAttribute("style", "text-decoration: none; color:#0080FF");
     item_link.setAttribute("target", "_blank");
+    item_link.setAttribute("data-imageurl", a_ImageUrl[a_count]);
+    item_link.setAttribute("data-key",'a'+a_count);
+    item_link.setAttribute("data-link", a_itemLinkUrl[a_count]);
+    item_link.setAttribute("onclick", "ToWebDB(this);");
     item_link.href = a_itemLinkUrl[a_count]; //링크 연결
     item_link.appendChild(img);
     var item_linkText = document.createTextNode(a_name[a_count]); //링크 이름
@@ -1067,9 +1009,13 @@
     var item_link = document.createElement("a");
     item_link.setAttribute("style", "text-decoration: none; color:#0080FF");
     item_link.setAttribute("target", "_blank");
-    item_link.href = y_itemLinkUrl[y_count];
+    item_link.setAttribute("data-imageurl", y_ImageUrl[y_count]);
+    item_link.setAttribute("data-key",'y'+y_count);
+    item_link.setAttribute("data-link", y_itemLinkUrl[y_count]);
+    item_link.setAttribute("onclick", "ToWebDB(this);");
+    item_link.href = y_itemLinkUrl[y_count]; //링크 연결
     item_link.appendChild(img);
-    var item_linkText = document.createTextNode(y_name[y_count]);
+    var item_linkText = document.createTextNode(y_name[y_count]); //링크 이름
     item_link.appendChild(item_linkText);
     //*****************리뷰 링크 *****************
     var review_link = document.createElement("a");
@@ -1190,6 +1136,7 @@
     a_MidCategorySelectBox.children().remove(); //두번째 셀렉트 박스를 초기화 시킨다.
     a_MidCategorySelectBox.append("<option value=''>中カテゴリ</option>"); //두 세번째 베이스값 만들기
   }
+
   //아마존, 중 선택자 클릭시 초기화 시킬 정보 담은 함수
   function a_MidSelectorBoxClickInit() {
     a_MidSelector.children().remove();
@@ -1404,10 +1351,12 @@
         a_TopCategorySelectBox.append("<option value='" + temp_count + "'>" + element.cateName + "</option>");
       }
     });
-    document.getElementById("a_CategorySelectBox").selectedIndex = 1;
-    a_TopSelectValue = 1;
+    //검색할 경우에는 초기 세팅한 값이 무효화 되야 함.
+    if(!submitButtonClickCheck){
+      document.getElementById("a_CategorySelectBox").selectedIndex = 1;
+      a_TopSelector.append("<a href='javascript:;'>" + a_TopCategoryArray[0].cateName + "</a>" + "<span> > </span>"); //main 세부항목 만들기
+    }
     CategorystoragePrintAjax("http://ubuntu@54.199.177.237:5000/amazon_cate", '', '', 6); //아마존 중 셀렉박스 저장 및 출력
-    a_TopSelector.append("<a href='javascript:;'>" + a_TopCategoryArray[a_TopSelectValue - 1].cateName + "</a>" + "<span> > </span>"); //main 세부항목 만들기
   }
   //아마존, 중 셀렉박스 데이터저장 함수
   function a_MidCategoryStorage(result) {
@@ -1475,77 +1424,3 @@
     }
     DatastoragePrintAjax('http://ubuntu@54.199.177.237:5000/rakuten_selected_ranking', "?genreId=", 0, 1); //라쿠텐 초기 데이터 호출
   }
-  $("#createtable").click(function() {
-    var db = openDatabase("test", "1.0", "test WebDB", 5 * 1024 * 1024);
-    db.transaction(function(execute) {
-      var createQuery = "CREATE TABLE IF NOT EXISTS test(id INTEGER PRIMARY KEY, test TEXT )";
-      execute.executeSql(createQuery);
-      alert("TABLE 생성완료!!");
-    });
-  });
-
-  // $("#select").click(function() {
-  //   var db = openDatabase("test", "1.0", "test WebDB", 5 * 1024 * 1024);
-  //   db.transaction(function(execute) {
-  //     var sql = "SELECT * FROM test ORDER BY id DESC";
-  //     execute.executeSql(sql, undefined, function(execute, result) {
-  //         if (result.rows.length > 0) {
-  //           var r = "";
-  //           for (var i = 0; i < result.rows.length; i++) {
-  //             var row = result.rows.item(i);
-  //             r += "<li>";
-  //             r += "<input type='text' value='" + row.test + "' id='" + row.id + "' name='test' />";
-  //             r += "<input type='button' name='update' value='UPDATE'/>";
-  //             r += "<input type='button' name='delete' value='DELETE'/>";
-  //             r += "</li>";
-  //           }
-  //           $("#selectlist > ul").html(r);
-  //         }
-  //       },
-  //       function() {
-  //         alert("조회 에러");
-  //       });
-  //   });
-  // });
-  //
-  // $("#insert").click(function() {
-  //   var db = openDatabase("test", "1.0", "test WebDB", 5 * 1024 * 1024);
-  //   db.transaction(function(execute) {
-  //     var insertQuery = "INSERT INTO test(test) VALUES(?)";
-  //     execute.executeSql(insertQuery, [$("#test").val()],
-  //       function(transaction, resultSet) {
-  //         alert("등록 완료")
-  //       },
-  //       function() {
-  //         alert("등록 에러");
-  //       });
-  //   });
-  // });
-  //
-  // $(document).on("click", "input[name=update]", function() {
-  //   var id = $(this).parent().find("input[type=text]").attr("id");
-  //   var value = $(this).parent().find("input[type=text]").val();
-  //   var db = openDatabase("test", "1.0", "test WebDB", 5 * 1024 * 1024);
-  //   db.transaction(function(execute) {
-  //     var insertQuery = "UPDATE test SET test = ? WHERE id = ?";
-  //     execute.executeSql(insertQuery, [value, id], function(transaction, resultSet) {
-  //       alert("수정 완료");
-  //     }, function() {
-  //       alert("수정 에러");
-  //     });
-  //   });
-  // });
-  //
-  // $(document).on("click", "input[name=delete]", function() {
-  //   var id = $(this).parent().find("input[type=text]").attr("id");
-  //   var db = openDatabase("test", "1.0", "test WebDB", 5 * 1024 * 1024);
-  //   db.transaction(function(execute) {
-  //     var deleteQuery = "DELETE FROM test WHERE id = ?";
-  //     execute.executeSql(deleteQuery, [id], function(transaction, resultSet) {
-  //         alert("삭제 완료");
-  //       },
-  //       function() {
-  //         alert("삭제 에러");
-  //       });
-  //   });
-  // });
