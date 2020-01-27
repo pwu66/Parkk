@@ -36,7 +36,7 @@ main {
   display: inline-block;
   margin-left:10px;
 }
-#testDB{
+#SideRecentItemShowingFrame{
   overflow: scroll;
   height:500px;
 }
@@ -47,6 +47,7 @@ main {
 #InitButtonMargine{
   margin-bottom: 10px;
 }
+
 input {
   margin-top: 2em;
   padding-left: 2em;
@@ -97,7 +98,9 @@ input {
   top: 10px;
   position: relative;
 }
-
+#min{
+  width:7%;
+}
 #logo_img, #r_logo_img {
   height: 50px;
   width: 120px;
@@ -109,7 +112,7 @@ input {
   left: 15em;
 }
 
-#j_logo_img:hover, #submit:hover ,#r_logo_img:hover{
+#j_logo_img:hover, #searchSubmit:hover ,#r_logo_img:hover{
   cursor: pointer;
 }
 
@@ -117,7 +120,7 @@ input {
   padding-top: 3px;
   text-align: center;
 }
-#input {
+#searchBox {
   height: 30px;
   width: 35%;
 }

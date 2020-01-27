@@ -4,8 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>HTML 5 Layout Structure</title>
-  <link href="project1.0.css?ver=34" rel="stylesheet" type="text/css">
+  <title>JackList</title>
+  <link href="project1.0.css?ver=37" rel="stylesheet" type="text/css">
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet" type='text/css'>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -14,9 +14,9 @@
   <header>
     <div id="header_div">
       <img src="Jacklist.png" id="j_logo_img" onclick="window.location.reload()">
-      <input id="input" type="text" placeholder="キーワードで検索する" maxlength="100"></input>
+      <input id="searchBox" type="text" placeholder="キーワードで検索する" maxlength="100"></input>
 
-      <span><input type="submit" id="submit"></input></span>
+      <span><input type="submit" id="searchSubmit"></input></span>
 
     </div>
   </header>
@@ -30,20 +30,21 @@
     <span id="r_BtmSelector" name="r_BtmSelector"></span>
 
     <!-- <div class="CategorySelectBoxFrame"> -->
-    <div><select id="CategorySelectBox" name="r_TopCategorySelectBox">
+    <div><select id="CategorySelectBox" name="r_TopCategoryBox">
         <option value="">大カテゴリ</option>
       </select></div>
-    <div> <select id="r_CategorySelectBox" name="r_MidCategorySelectBox">
+    <div> <select id="r_CategorySelectBox" name="r_MidCategoryBox">
         <option value="">中カテゴリ</option>
       </select></div>
-    <div><select id="CategorySelectBox" name="r_BtmCategorySelectBox">
+    <div><select id="CategorySelectBox" name="r_BtmCategoryBox">
         <option value="">ソカテゴリ</option>
       </select></div>
-    <div id=CategoryItemBtnMargine>
-      <select id ="sortCategorySelectBox" name="sortCategorySelectBox">
-        <option value="">標準</option>
-      </select>
-    </div>
+      <div id=CategoryItemBtnMargine>
+        <span>가격 <input type="number" name="min" min='0' max="1000000" value='円' size="10"></span>
+        <span>~</span>
+        <span><input type="number" name='max' value='円' min='0' max="1000000" size='10'></input></span>
+        <span><input type="submit" id="price_input"></input></span>
+      </div>
     <!--상품란-->
     <div id="r_ItemScreen"></div>
   </main>
@@ -55,13 +56,20 @@
       <span id="a_TopSelector" name="a_TopSelector"></span>
       <span id="a_MidSelector" name="a_MidSelector"></span>
       <div class="CategorySelectBoxFrame">
-        <select id="a_CategorySelectBox" name="a_TopCategorySelectBox">
+        <select id="a_CategorySelectBox" name="a_TopCategoryBox">
           <option value="">大カテゴリ</option>
         </select>
 
-        <select id="CategorySelectBox" name="a_MidCategorySelectBox">
+        <select id="CategorySelectBox" name="a_MidCategoryBox">
           <option value="">中カテゴリ</option>
         </select>
+
+        <div id=CategoryItemBtnMargine>
+          <select id ="sortCategorySelectBox" name="sortCategoryBox">
+            <option value="">標準</option>
+          </select>
+        </div>
+
       </div>
     </div>
     <div id=a_CategoryItemBtnMargine></div>
@@ -74,10 +82,10 @@
       <span id="y_TopSelector" name="y_TopSelector"></span>
       <span id="y_MidSelector" name="y_MidSelector"></span>
       <div class="CategorySelectBoxFrame">
-        <select id="CategorySelectBox" name="y_TopCategorySelectBox">
+        <select id="CategorySelectBox" name="y_TopCategoryBox">
           <option value="">大カテゴリ</option>
         </select>
-        <select id="CategorySelectBox" name="y_MidCategorySelectBox">
+        <select id="CategorySelectBox" name="y_MidCategoryBox">
           <option value="">中カテゴリ</option>
         </select>
       </div>
@@ -91,11 +99,11 @@
     <i class="far fa-clock" id="TimeIcon"></i>
     <div >최근 본 상품</div>
     <input type='button' value="초기화" onclick="initRecentItem();">
-    <div id = 'testDB'></div>
+    <div id = 'SideRecentItemShowingFrame'></div>
   </div>
   <div id ="Top" onclick="window.scroll(0,0)">TOP</div>
 </aside>
-<script type="text/javascript" src="script.js?ver=34"></script>
+<script type="text/javascript" src="script.js?ver=37"></script>
 
 </body>
 <!-- <script>
