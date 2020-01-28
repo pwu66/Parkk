@@ -3,7 +3,7 @@
 #header_div {
   text-align: center;
   position: relative;
-  width:100%;
+  width: 100%;
   height: 0;
 }
 
@@ -16,35 +16,42 @@ header {
   height: 10%;
   background-color: lightgray;
 }
+
 main {
   float: left;
   width: 28%;
   text-align: center;
   position: relative;
 }
-#PrevButton{
+
+#PrevButton {
   text-decoration: none;
   display: inline-block;
-  margin-right:10px;
+  margin-right: 10px;
 }
-#PrevButton:hover,#NextButton:hover{
+
+#PrevButton:hover, #NextButton:hover {
   background-color: lightgray;
-  color:black
+  color: black
 }
-#NextButton{
+
+#NextButton {
   text-decoration: none;
   display: inline-block;
-  margin-left:10px;
+  margin-left: 10px;
 }
-#SideRecentItemShowingFrame{
+
+#SideRecentItemShowingFrame {
   overflow: scroll;
-  height:500px;
+  height: 500px;
 }
-#TimeIcon{
-  font-size:40px;
+
+#TimeIcon {
+  font-size: 40px;
   margin-top: 15%;
 }
-#InitButtonMargine{
+
+#InitButtonMargine {
   margin-bottom: 10px;
 }
 
@@ -57,11 +64,30 @@ input {
   border: 1px solid black;
   width: 100%;
 }
+
+.sideProductOutDiv {
+  text-align: center;
+  border: 1px solid black;
+  margin: 1% auto;
+  display: block;
+  width: auto;
+  height: 50px;
+  position: relative;
+}
+
+.productOuterDiv {
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+}
+
 /* .CategorySelectBoxFrame {
   position: relative;
   padding-left: 3em;
 } */
-#CategorySelectBox,#r_CategorySelectBox,#a_CategorySelectBox{
+#CategorySelectBox, #r_CategorySelectBox, #a_CategorySelectBox {
   display: block;
   width: 80%;
   margin: auto;
@@ -74,21 +100,21 @@ input {
 }
 
 #CategoryItemBtnMargine {
-  margin:3% 10%;
-  width:auto;
+  margin: 3% 10%;
+  width: auto;
   float: right;
   position: relative;
 }
 
 #a_CategoryItemBtnMargine {
-  margin:18% 10%;
-  width:auto;
+  margin: 18% 10%;
+  width: auto;
   position: relative;
 }
 
 #y_CategoryItemBtnMargine {
-  margin:18% 10%;
-  width:auto;
+  margin: 18% 10%;
+  width: auto;
   position: relative;
 }
 
@@ -98,21 +124,24 @@ input {
   top: 10px;
   position: relative;
 }
-#min{
-  width:7%;
+
+#min {
+  width: 7%;
 }
+
 #logo_img, #r_logo_img {
   height: 50px;
   width: 120px;
 }
+
 #logo_div {
-	display: inline;
+  display: inline;
   position: absolute;
   top: 10px;
   left: 15em;
 }
 
-#j_logo_img:hover, #searchSubmit:hover ,#r_logo_img:hover{
+#j_logo_img:hover, #searchSubmit:hover, #r_logo_img:hover {
   cursor: pointer;
 }
 
@@ -120,44 +149,99 @@ input {
   padding-top: 3px;
   text-align: center;
 }
+
 #searchBox {
   height: 30px;
   width: 35%;
 }
-#Top{
-  cursor:pointer;
+
+#Top {
+  cursor: pointer;
   /* display: block; */
   background-color: lightgray;
   text-align: center;
   vertical-align: middle;
   height: 4%;
-  width:4%;
+  width: 4%;
   position: fixed;
-  bottom:5%;
-  right:5px;
+  bottom: 5%;
+  right: 5px;
 }
-aside{
-  position:fixed;
-  top:5%;
-  right:5px;
+
+aside {
+  position: fixed;
+  top: 5%;
+  right: 5px;
   text-align: center;
-  width:10%;
+  width: 10%;
   float: right;
   height: 100%;
 }
-div.sticky{
+
+div.sticky {
   /* border: 1px solid black; */
   position: fixed;
-  margin-top:1%;
+  margin-top: 1%;
   top: 10%;
-
 }
-html{
+
+html {
   height: 100%;
 }
+
 body {
   height: 100%;
   font-size: 1em;
   color: #333;
   font-family: "Times";
+}
+
+/* mobile [0 ~ 480px] */
+@media all and (max-width:480px) {
+  #CategoryItemBtnMargine {
+    width: 100%;
+    text-align: right;
+    margin: 3% auto;
+    padding: 0 20px;
+  }
+
+  main {
+    display: inline-block;
+    width: 100%;
+  }
+
+  .productOuterDiv {
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    width: 30.7%;
+    float: left;
+    height: 200px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    margin: 0 2% 20px 0;
+  }
+
+  /* 순위 */
+  .productOuterDiv p {
+    font-size: 18px;
+    color: red;
+    /* padding: 2px; */
+    margin: 10px auto;
+    font-size: 15px;
+  }
+
+  .productOuterDiv a img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 100%;
+    max-height: 100px;
+  }
+
+  #r_ItemScreen {
+    height: 220px;
+    width: 100%;
+    overflow: hidden;
+  }
 }
