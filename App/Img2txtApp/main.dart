@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController? _controller;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _controller = TextEditingController();
   }
@@ -100,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(
             height: 8,
           ),
-          TextArea(),
+          GetText(),
           SizedBox(
             height: 8,
           ),
@@ -114,32 +114,32 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget BuildImage() => Flexible(
-    child: Container(
-      child: _image != null
-          ? ClipRect(
-        child: PhotoView(
-          imageProvider: FileImage(_image!),
-          tightMode: true,
+        child: Container(
+          child: _image != null
+              ? ClipRect(
+                  child: PhotoView(
+                    imageProvider: FileImage(_image!),
+                    tightMode: true,
+                  ),
+                )
+              : Icon(
+                  Icons.image,
+                  size: 100,
+                ),
         ),
-      )
-          : Icon(
-        Icons.image,
-        size: 100,
-      ),
-    ),
-  );
+      );
 
-  Widget TextArea() => message.length != 0
+  Widget GetText() => message.length != 0
       ? Flexible(
-    child: ListView.separated(
-      padding: EdgeInsets.all(8.0),
-      //reverse: true,
-      itemCount: message.length,
-      itemBuilder: (_, int index) => _ListTile(index),
-      separatorBuilder: (BuildContext context, int index) =>
-      const Divider(),
-    ),
-  )
+          child: ListView.separated(
+            padding: EdgeInsets.all(8.0),
+            //reverse: true,
+            itemCount: message.length,
+            itemBuilder: (_, int index) => _ListTile(index),
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(),
+          ),
+        )
       : Container();
 
   // Widget _ListTile(int index) {
@@ -157,9 +157,17 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         //Icons.border_color
-        IconButton(onPressed: (){
-          _controller!.value = TextEditingValue(text:message[index]);
-        }, icon: Icon(Icons.border_color)),
+        IconButton(
+            onPressed: () {
+              _controller!.value = TextEditingValue(text:_controller!.text+message[index]);
+            },
+            icon: Icon(Icons.add_rounded)),
+
+        IconButton(
+            onPressed: () {
+              _controller!.value = TextEditingValue(text: message[index]);
+            },
+            icon: Icon(Icons.border_color)),
 
         IconButton(
             color: Colors.blue,
@@ -176,20 +184,28 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _Textfield() {
-    return _image != null ? Row(
-      children: [
-        Flexible(child: TextField(
-          controller: _controller,
-        )),IconButton(onPressed: (){
-          FlutterClipboard.copy(_controller!.text);
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Copied!'),
-            duration: Duration(milliseconds: 500),
-          ));
-
-        }, icon: Icon(Icons.copy,color: Colors.blue,))
-      ],
-    ):Container();
+    return _image != null
+        ? Row(
+            children: [
+              Flexible(
+                  child: TextField(
+                controller: _controller,
+              )),
+              IconButton(
+                  onPressed: () {
+                    FlutterClipboard.copy(_controller!.text);
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('Copied!'),
+                      duration: Duration(milliseconds: 500),
+                    ));
+                  },
+                  icon: Icon(
+                    Icons.copy,
+                    color: Colors.blue,
+                  ))
+            ],
+          )
+        : Container();
   }
 
   Widget _floatingButton() {
@@ -203,34 +219,34 @@ class _MyHomePageState extends State<MyHomePage> {
     return showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: Center(
-            child: Text(
-              'Camera or Gallery',
-            ),
-          ),
-          content: Row(
-            children: [
-              Expanded(
-                child: IconButton(
-                    iconSize: 48,
-                    onPressed: () {
-                      _getImage(ImageSource.camera);
-                    },
-                    icon: Icon(Icons.photo_camera)),
+              title: Center(
+                child: Text(
+                  'Camera or Gallery',
+                ),
               ),
-              SizedBox(
-                width: 16,
+              content: Row(
+                children: [
+                  Expanded(
+                    child: IconButton(
+                        iconSize: 48,
+                        onPressed: () {
+                          _getImage(ImageSource.camera);
+                        },
+                        icon: Icon(Icons.photo_camera)),
+                  ),
+                  SizedBox(
+                    width: 16,
+                  ),
+                  Expanded(
+                      child: IconButton(
+                          iconSize: 48,
+                          onPressed: () {
+                            _getImage(ImageSource.gallery);
+                          },
+                          icon: Icon(Icons.image)))
+                ],
               ),
-              Expanded(
-                  child: IconButton(
-                      iconSize: 48,
-                      onPressed: () {
-                        _getImage(ImageSource.gallery);
-                      },
-                      icon: Icon(Icons.image)))
-            ],
-          ),
-        ));
+            ));
   }
 
   Future _getImage(var what) async {
